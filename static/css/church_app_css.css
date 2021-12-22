@@ -1,0 +1,272 @@
+* {
+  box-sizing: border-box;
+}
+
+body{
+  padding-top:50px;
+
+}
+html {
+  margin: auto;
+  padding: 0;
+}
+
+.add_title {
+  text-align: center;
+  background-color: rgb(112, 172, 23);
+  padding-right: auto;
+  padding-left: auto;
+  
+}
+
+/* .fix-tops{
+  padding-top: 10px;
+  margin-bottom: 100px;
+  position: fixed;
+  width: 100%;
+  background-color: white;
+} */
+
+.add_title_lyrics {
+    text-align: center;
+    background-color: rgb(219, 60, 60);
+    padding-right: auto;
+    padding-left: auto;
+    
+  }
+
+#add-member {
+  border-radius: 5px;
+  background-color: rgb(136, 122, 125);
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+  outline: none;
+  padding: 10px;
+}
+#add-member:focus,
+#add-member:hover {
+  filter: brightness(75%) saturate(120%);
+}
+
+nav {
+  margin: auto;
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+/* .container {
+  width: 600px;
+  height: 190px;
+  padding-top: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
+} */
+
+
+h1 {
+  color: green;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-auto-rows: auto;
+  grid-gap: 2rem;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+}
+
+.card {
+  border: 2px solid #e7e7e7;
+  border-radius: 20px;
+  padding: 0.8rem;
+  padding-top: 0.5em;
+  padding-bottom: 0.1em;
+}
+
+
+#card-text {
+  text-decoration: none;
+  color: black;
+}
+
+.card:hover {
+  /* color: #fff; */
+  background-color: #85e4b8;
+  border-color: #198754;
+  color: black;
+}
+
+
+.card-p {
+  margin-top: 0.05em;
+  margin-bottom: 0.1em;
+}
+
+.card-p-java {
+  margin-top: 0.05em;
+  margin-bottom: 0.1em;
+  text-align: center;
+}
+
+#btnserachmarg {
+  margin-right: 20px;
+}
+
+.lyrics-card {
+  border-bottom: 2px solid #e7e7e7;
+  border-radius: 2px;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: .5px;
+  padding-left: 40px;
+}
+
+.lyrics-card:hover {
+    /* color: #fff; */
+    background-color: #ecd9d9;
+    border-color: #e6e5ee;
+    color: black;
+}
+/* 
+#per-lyrics{
+  padding-bottom: 25px;
+} */
+
+.lyrics-container{
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+/* #member-cont{
+  margin-top: 180px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+} */
+
+/* #navbar {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+}​ */
+
+/* #box{
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+} */
+
+.lyric-field1{
+  padding-top: 25px;
+  padding-bottom: 15px;
+  margin-left: 2px;
+  border: 1px;
+  display: inline-block;
+  padding-left: 15px;
+  /* font-family: "Lucida Console", "Courier New", monospace; */
+}
+.lyric-field2{
+  padding-top: 25px;
+  padding-bottom: 15px;
+  border: 1px;
+  display: inline-block;
+  text-align: center;
+
+}
+.lyric-field3{
+  padding-top: 25px;
+  padding-bottom: 15px;
+  border: 1px;
+  display: inline-block;
+  /* font-family: "Lucida Console", "Courier New", monospace; */
+}
+
+.lyrics-text{
+  text-align: center;
+}
+
+#update-button{
+  margin-right: 10px;
+}
+
+
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  .navbar .container {
+    width: 100%;
+  }
+
+  .nav.navbar-nav > li > a {
+    padding-right: 8px;
+  }
+  a.navbar-brand {
+    padding-right: 20px;
+  }
+}
+
+#search-here {
+  background-image: url("../icons/search.png");
+  background-size: 25px;
+  background-position: 10px;
+  background-repeat: no-repeat;
+  height: 60px;
+  width: 500px;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 40px;
+  border-radius: 20px;
+  
+}
+
+.myform {
+  border: 2px solid #e7e7e7;
+  border-radius: 20px;
+  padding: 0.8rem;
+  padding-top: 0.5em;
+  padding-bottom: 0.1em;
+  text-align: center;
+  width: 65%;
+  margin-top: 2%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* .myformcontent{
+    border-radius: 3px;
+    border: .5px black solid;
+    margin: 6px;
+    padding: auto;
+} */
+
+#mybutt {
+  margin-bottom: 3px;
+  margin-top: 10px;
+}
+
+.child {
+  display: inline-block;
+  padding-right: 2rem;
+  padding-bottom: 5px;
+  vertical-align: middle;
+  margin-top: 0.4px;
+}
+
+.light-mode {
+  /* padding: 25px; */
+  background-color: white;
+  color: black;
+  /* font-size: 25px; */
+}
+
+.dark-mode {
+  background-color: rgb(1, 1, 17);
+  color: white;
+}
+
+#dark-button {
+  border: 1px darkgreen solid;
+  border-radius: 10px;
+  font-style: oblique;
+}

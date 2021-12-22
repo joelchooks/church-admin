@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+{% extends 'church_app/church_app_base.html' %}
+{% load static %}
+
+{% block  title %}
+| Members
+{% endblock %}
+
+{% block  body_block %}
+    <div class='fix-tops'>
+
+    <h3 class='add_title'>Add New Member? <a id='add-member' class="" type="submit" href="{% url 'church_app:form' %}">Add</a></h3>
+    <br>
+    <input id='search-here' class="form-control mb-4" placeholder="Search Members">
+
+    </div>
+
+        <div class='container' id='member-cont'>
+            
+            
+            <div id='box' class="cards">
+                {% for member in members %}
+                <a id='card-text' class="card" href="{{ member.pk }}">    
+                    <h5><b>{{ member.first_name}} {{ member.middle_name}} {{ member.last_name}}</b></h5> 
+                    <p class='card-p'>{{ member.phone_number }}</p>
+                    <p style="color:rgb(57, 184, 124);" class='card-p'><i>{{ member.email}}</i></p>
+                </a>
+                {% endfor %}
+            </div>
+            
+        </div>
+
+
+            
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+      
+    
+    const data = '{{qs_json}}'
+    const rdata = JSON.parse(data.replace(/&quot;/g, '"'))
+    const input = document.getElementById('search-here')
+
+    // console.log(rdata)
+
+    input.addEventListener('keyup', (e)=>{
+        
+        const unwantedChars = ['0','1,','2','3','4','5','6,','7','8','9','.',',','/,','-','-','='] 
+
+        function checkChars(){
+            for (let key in unwantedChars){
+                if (e.target.value.indexOf(key) === 0){
+                    return 1
+                }
+            }
+        }
+            
+
+
+
+        
+        if (e.target.value.trim() === "" || checkChars() === 1){
+            box.innerHTML = ""
+            rdata.map(member=>{
+                box.innerHTML += `<a id="card-text" class="card" href='${member['member_id']}'><h5><b>${member['first_name']} ${member['middle_name']} ${member['last_name']}</b></h5><p class='card-p'>${member['phone_number']}</p>
+                <p style="color:rgb(57, 184, 124);" class='card-p'><i>${member['email']}</i></p></a>`
+            })
+            return
+        }       
+        
+       
+
+        // filteredArr = rdata.filter(member=> member['first_name'].toLowerCase().includes(e.target.value.toLowerCase()))
+        
+        let url = window.location.href.split('/')
+        url.pop()
+        url.pop()
+        url = url.join("/")
+        url+='/api/members/search/' + e.target.value
+        fetch(url).then(response => response.json()).then(filteredArr => {
+            // console.log(filteredArr)
+
+            if (filteredArr.length > 0){
+                box.innerHTML = ""
+                filteredArr.map(member=>{
+                    box.innerHTML += `<a id="card-text" class="card" href='${member['member_id']}'><h5><b>${member['first_name']} ${member['middle_name']} ${member['last_name']}</b></h5><p class='card-p'>${member['phone_number']}</p>
+                    <p style="color:rgb(57, 184, 124);" class='card-p'><i>${member['email']}</i></p></a>`
+            })
+        } else {
+            box.innerHTML = `<h5 text-align='center' class='card-p-java'><b>No results found!</b></h5>`
+        }
+
+        })
+
+        
+
+    })
+
+
+
+</script>
+<script>
+    $().ready(function() {
+        var $scrollingDiv = $("#member-cont");
+
+        $(window).scroll(function(){            
+            $scrollingDiv
+                .stop()
+                .animate({"marginTop": ($(window).scrollTop() )}, "slow" );         
+        });
+    });
+</script>
+
+<script src="{% static 'js/church_app_js.js' %}"></script>
+{% endblock scripts %}

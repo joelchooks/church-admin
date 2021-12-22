@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+{% extends 'church_app/church_app_base.html' %}
+{% load static %}
+{% load lyrics_ellipse %}
+{% block  title %}
+| Lyrics
+{% endblock %}
+
+{% block  body_block %}
+   <div class='fix-tops'>
+    <h3 class='add_title_lyrics'>Add New Lyrics? <a id='add-member' class="" type="submit" href="{% url 'lyrics_app:form' %}">Add</a></h3>
+    
+    <br>
+    <input id='search-here' class="form-control mb-4" placeholder="Search Lyrics">
+    </div>
+
+        <!-- <div class='container' id=''> -->
+            
+            
+            <div id='box' class="container lyrics-container">
+
+              
+                {% for lyric in lyrics %}
+               
+                <div id='per-lyrics' class="col-12">
+                    <a class='lyrics-card light-mode' id='card-text' href="{{ lyric.pk}}">
+                    <div>
+                        <div class='lyric-field1 col-sm-3'>
+                            <h3 id='mytrunclyric'><b>{{lyric.song_name}}</b></h3>
+                        </div>
+                        <div align='center' class='lyric-field2 col-sm-5'>
+                            <h4>{{lyric.song_lyrics|lyrEll }}<h4>
+                        </div>
+                        <div align='right' class='lyric-field3 col-sm-3'>
+                            <h4>{{lyric.category}}<h4>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+                
+                {% endfor %}
+               
+            
+            </div>
+            
+        <!-- </div> -->
+
+
+            
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+    
+    function truncate(str) {
+        let firststr = str.split(" ").join(" ").replace(/(\r\n|\n|\r)/gm, " ");
+       
+        let firstMyNew = firststr.slice(0,17);
+        // console.log(firstMyNew)
+        let myNew = firstMyNew.trim()
+        
+        myNew = myNew + '...';
+        return myNew;
+    }
+    
+    const data = '{{qs_json}}'
+    const rdata = JSON.parse(JSON.stringify(data.replace(/&quot;/g, '"').replace(/&#x27;/g, "'")));
+    const input = document.getElementById('search-here');
+
+    // console.log(data)
+    // console.log(input)
+
+    input.addEventListener('keyup', (e)=>{
+
+        const unwantedChars = ['0','1,','2','3','4','5','6,','7','8','9','.',',','/,','-','-','='] 
+
+        function checkChars(){
+            for (let key in unwantedChars){
+                if (e.target.value.indexOf(key) === 0){
+                    return 1
+                }
+            }
+        }
+        
+                
+        let url = window.location.href.split('/')
+        url.pop()
+        url.pop()
+        url = url.join("/")
+
+        if(e.target.value.trim() === "" || checkChars() === 1){
+            let allurl = window.location.href.split('/')
+            allurl.pop()
+            allurl.pop()
+            allurl = allurl.join("/")
+            allurl+='/api/lyrics/'
+            // console.log(allurl)
+            fetch(allurl).then(response => response.json()).then(filteredAllArr => {
+                box.innerHTML = ""
+                filteredAllArr.map(lyrics=>{
+                    
+                  
+                    let newLyrics =  truncate(`${lyrics['song_lyrics']}`)
+
+                    box.innerHTML += `<div id='per-lyrics' class="col-12">
+                    <a class='lyrics-card' id='card-text' href="${lyrics['lyrics_id']}">
+                    <div>
+                        <div class='lyric-field1 col-sm-3'>
+                            <h3><b>${lyrics['song_name']}</b></h3>
+                        </div>
+                        <div align='justify' class='lyric-field2 col-sm-5'>
+                            <h4>${newLyrics}<h4>
+                        </div>
+                        <div align='right' class='lyric-field3 col-sm-3'>
+                            <h4>${lyrics['category']}<h4>
+                        </div>
+                    </div>
+                    </a>
+                </div>`
+                return;})
+            })
+        } else {
+            url+='/api/lyrics/search/' + e.target.value
+            // console.log(url)
+            fetch(url).then(response => response.json()).then(filteredArr => {
+
+            if (filteredArr.length > 0){
+                // console.log(filteredArr)
+                box.innerHTML = ""
+                filteredArr.map(lyrics=>{
+                    // let lyrisLyrics = `${lyrics['song_lyrics']}`
+                    // // console.log(lyrisLyrics)
+                    // let secondedit = lyrisLyrics.split(" ").join(" ").replace(/(\r\n|\n|\r)/gm, " ");
+                    // // console.log(secondedit)
+                    // let newLyrics = secondedit.slice(0,16);
+                    // newLyrics = newLyrics + '...';
+
+                    let newLyrics = truncate(`${lyrics['song_lyrics']}`)
+                    // console.log(newLyrics)
+
+                    box.innerHTML += `<div id='per-lyrics' class="col-12">
+                    <a class='lyrics-card' id='card-text' href="${lyrics['lyrics_id']}">
+                    <div>
+                        <div class='lyric-field1 col-sm-3'>
+                            <h3><b>${lyrics['song_name']}</b></h3>
+                        </div>
+                        <div align='justify' class='lyric-field2 col-sm-5'>
+                            <h4>${newLyrics}<h4>
+                        </div>
+                        <div align='right' class='lyric-field3 col-sm-3'>
+                            <h4>${lyrics['category']}<h4>
+                        </div>
+                    </div>
+                    </a>
+                </div>`
+            })
+            } else {
+            box.innerHTML = `<h5 text-align='center' class='card-p-java'><b>No results found!</b></h5>`
+            }
+        })
+
+        }
+    
+
+    })
+
+
+
+</script>
+
+<script src="{% static 'js/church_app_js.js' %}"></script>
+{% endblock scripts %}
