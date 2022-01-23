@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% extends 'church_app/church_app_base.html' %}
+{% load static %}
+
+{% block title %} 
+| SMS
+{% endblock %}
+
+{% block  body_block %}
+    
+    <div class='container mt-4'>  
+        <div align='center'><a style="text-decoration: none; color: black;" class="arrow-show" href="{% url 'church_app:generate-member' %}"><img id='sms_back-arrow-img' src="{% static 'icons/left-arrow-button.png' %}" alt="" srcset=""><b>Back To Filter</b></a></div>
+        <h2 class='att-title mb-5'><u>List of SMS Dates</u></h2>
+                
+            {% if objects %}
+
+                {% for object in objects %}
+                    <a class='mess_list_link' id='card-att-text' href="{% url 'church_app:draft_message_detail' pk=object.pk %}"> 
+                        <li class="att-group-item">
+                            {{object.created_date|date:"D, dS M, Y"}}
+                        </li>
+                    </a>
+                {% endfor %}
+
+                
+            {% else %}
+               <div align='center'><b>There Are No Drafts To Display</b></div>
+            {% endif %}
+        
+    </div>
+
+
+            
+    
+
+{% endblock %}

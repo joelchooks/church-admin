@@ -1,0 +1,46 @@
+{% extends 'church_app/church_app_base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block  body_block %}
+
+
+
+
+    <!--===== LOGIN =====-->
+    {% if user.is_authenticated %}
+
+
+    <div class = 'login_div'>
+
+        <h3>You are already logged in</h3>
+    </div>
+
+    {% else %}
+
+
+
+
+        <div class = 'login_div'>
+            <div class=''>
+                <h1>Please Login:</h1>
+                <h3>(Musts be a Church Admin to login. Please check with the Media Department)</h3>
+
+                {% if form.errors %}
+                    <p>Your username or password is incorrect. Please try again</p>
+                {% endif %}
+            </div>
+
+                <form class='post' action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="submit" value="Login" class="btn btn-primary login-button">
+                    <input type="hidden", name ='text' value={{next_page}}>
+                </form>
+  
+        </div>
+
+    {% endif %}
+
+
+{% endblock %}

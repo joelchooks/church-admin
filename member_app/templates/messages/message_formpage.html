@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% extends 'church_app/church_app_base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
+{% block title %} 
+| SMS Form
+{% endblock %}
+
+{% block  body_block %}
+  
+    <div class='container mt-3'> 
+        
+        <form method="POST">
+            {% csrf_token %}
+            <div class="well">
+                <h4 style="margin-top: 0; color: rgb(7, 109, 75);" align='center'><b>Fill Out Message Form</b></h4>
+                <hr>
+                <div class="row">
+                    
+                    <div class="form-group col-sm-6 col-md-6">
+                        <p><b>{{ form.sender_name.label_tag }}</b>
+                            {% render_field form.sender_name class="form-control" %}
+                        </p>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-6">
+                        <p><b>{{ form.flash.label_tag }}</b>
+                            {% render_field form.flash class="form-control" %}
+                        </p>
+                    </div>
+                </div>
+               
+
+                <div class="row">
+                    <div class="form-group col-12">
+                        <p><b>{{ form.recipients.label_tag }}</b>
+                            {% render_field form.recipients class="form-control" %}
+                        </p>
+                    </div>
+                </div>
+                
+
+                <div class="row">
+                    <div class="form-group col-12">
+                        <p><b>{{ form.message_text.label_tag }}</b>
+                            {% render_field form.message_text class="form-control" %}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- <div style="margin-top: 1rem; margin-bottom: 2rem; margin-left: 15rem; margin-right: 15rem;">
+                    
+                    <button id='smsbutton' type='button' class="btn btn-danger btn-lg">
+                            <span class="glyphicon glyphicon-search"></span> Send SMS
+                    </button> -->
+                    
+
+                    <div style="float: right;">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <span class="glyphicon glyphicon-search"></span> Save To Draft
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        
+
+        <span id="nameValue" class="hidden" hidden></span>
+    </div>
+
+
+            
+    
+
+{% endblock %}
+
+

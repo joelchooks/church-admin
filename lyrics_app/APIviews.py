@@ -1,3 +1,4 @@
+from django.http import response
 from django.shortcuts import render
 
 # Create your views here.
@@ -25,9 +26,24 @@ class LyricsSearchView(APIView):
         result = Lyrics.objects.filter(Q(song_name__icontains=query) | Q(song_lyrics__icontains=query) | Q(
             artist__icontains=query) | Q(album__icontains=query) | Q(
             category__icontains=query)).all()
-        print(result)
-        result = LyricsSerializer(result, many=True)
-        return Response(result.data, status=status.HTTP_200_OK)
+
+        resulter = list(result.values())
+        return JsonResponse({'filt_data':resulter}, status=status.HTTP_200_OK, safe=False)
+
+        # result = LyricsSerializer(result, many=True)
+        # return Response(result.data, status=status.HTTP_200_OK)
+
+
+# All Views
+
+class LyricsAll(APIView):
+    def get(self, *args, **kwargs):
+        upper = kwargs.get('num_lyrics')
+        lower = upper - 15
+        lyrics = list(Lyrics.objects.values()[lower:upper])
+        lyrics_size = len(Lyrics.objects.all())
+        size = True if upper >= lyrics_size else False
+        return JsonResponse({'lyrics_data':lyrics, 'max_lyrics':size }, safe=False)
 
 
 class LyricsList(generics.ListCreateAPIView):

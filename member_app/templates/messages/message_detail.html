@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% extends 'church_app/church_app_base.html' %}
+{% load static %}
+
+{% block title %} 
+| Member
+{% endblock %}
+
+{% block  body_block %}
+<div id='cont_box' class='container mt-3'> 
+        
+    <h4 style="margin-top: 0; color: rgb(7, 109, 75);" align='center'><b>Sent SMS Message Attributes</b></h4>
+    <hr>
+    <div class="row">
+        
+        <div class="col-sm-6 col-md-6">
+            <b>Sender Name:</b>
+            <p id="senderName" class="compute_boxes">{{object.sender_name}}</p>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <b>Flash Message?</b>
+            <p id="senderFlash" class="compute_boxes">{% if object.flash %}Yes{% else %}No{% endif %}</p>
+        </div>
+    </div>
+   
+
+    <div class="row">
+        <div class="col-12">
+            <b>Recipient(s):</b>
+            <div id="senderRecipe" class="sms_border_style compute_boxes">{{object.recipients}}</div>
+        </div>
+    </div>
+    
+
+    <div class="row">
+        <div class="col-12">
+            <b>Message Body:</b>
+            <p id="senderMess" class="sms_border_style compute_boxes">{{object.message_text}}</p>
+        </div>
+    </div>
+
+</div>
+
+
+</div>
+    
+
+{% endblock %}

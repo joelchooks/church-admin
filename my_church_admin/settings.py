@@ -27,11 +27,11 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(config('DEBUG')) == "1"
+# DEBUG = str(config('DEBUG')) == "1"
+DEBUG=True
 
-ALLOWED_HOSTS = []
-if not DEBUG:
-    ALLOWED_HOSTS += [config('ALLOWED_HOSTS')]
+ALLOWED_HOSTS = ['*']
+
 
 
 # Application definition
@@ -49,10 +49,27 @@ INSTALLED_APPS = [
     'phone_field',
     'crispy_forms',
     'lyrics_app',
-
+    'home_cell',
+    'bootstrap_datepicker_plus',
+    'django_filters',
+    'widget_tweaks',
+    # 'member_app_extras',
 ]
 
-CRISPY_TEMPLATE_PACK = 'bootstrap'
+
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -107,6 +124,11 @@ DATABASES = {
     }
 }
 
+# BULK SMS KEYS
+BULK_SMS_USERNAME=config('BULK_SMS_USERNAME')
+BULK_SMS_API_KEY=config('BULK_SMS_API_KEY')
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -149,6 +171,11 @@ STATICFILES_DIRS = [
     STATIC_DIR,
 ]
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_root/')
+
+GOOGLE_API_KEY = 'AIzaSyARucFzo_7MRMhPnzsmDSWmneI9HuDkE0A'
+
+BASE_COUNTRY = "NG"
 
 # MEDIA files
 MEDIA_URL = '/media/'
@@ -159,3 +186,6 @@ MEDIA_ROOT = MEDIA_DIR
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = 'church_app:list'
+LOGOUT_REDIRECT_URL = 'church_app:index'

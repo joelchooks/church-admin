@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% extends 'church_app/church_app_base.html' %}
+{% load static %}
+{% block title %}
+| Attendance Form
+{% endblock %}
+
+{% block  body_block %}
+{% load crispy_forms_tags %}
+
+    <div class="myform">
+      <!-- <div class='row'>
+        <div class='col-sm-3 offset-sm-3'> -->
+            <a id='redirect-link' class="arrow-show redi" href=""><img id='back-arrow-img' src="{% static 'icons/left-arrow-button.png' %}" alt="" srcset=""></a>
+          <h1>Fill out the form! </h1>
+
+        
+          <form method="POST" enctype="multipart/form-data">
+
+            {% for hidden_field in form.hidden_fields %}
+              {{ hidden_field.errors }}
+              {{ hidden_field }}
+            {% endfor %}
+
+            {% csrf_token %}
+            <!-- <div class='row'> -->
+            <p>
+            
+            
+                {{ form.management_form }}
+                {{ form.non_form_errors }}
+
+            {% for myform in form.forms %}
+          
+            <hr>
+            <h5>
+              {% if myform.instance.id %}
+                Sercive Attendance {{ book_form.instance }}
+              {% else %}
+                {% if form.forms|length > 1 %}
+                  Add Another Service Attendance
+                {% else %}
+                  Add Service Attendance
+                {% endif %}
+              {% endif %}
+           
+            </h5>
+            {% for hidden_field in myform.hidden_fields %}
+              {{ hidden_field.errors }}
+            {% endfor %}
+            <div class='att-edit-form'> 
+            <table>
+              {{ myform.as_table }}
+            </table>
+          </div>
+          {% endfor %}
+          
+          <hr>
+          <p>
+            
+            <button type="submit" value="Update collection" class="btn btn-primary w-100 mb-3">Update</button>
+
+             <a id='redirect-link' href="" role="button" class="btn btn-secondary w-100">Cancel</a>
+          </p>
+        </form>
+      
+
+
+             
+   
+    </div>
+    
+      
+
+<script>
+
+    let url = window.location.href.split('/')
+
+    url.pop()
+    url.pop(-1)
+    url = url.join("/")
+    const redirectLink = document.getElementById('redirect-link')
+    redirectLink.href=url
+
+    // console.log(url)
+
+</script>
+
+    
+
+{% endblock %}

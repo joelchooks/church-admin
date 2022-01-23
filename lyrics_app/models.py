@@ -1,3 +1,4 @@
+from operator import mod
 from django.db import models
 from django.db.models.fields import BigIntegerField
 from phone_field import PhoneField
@@ -6,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.urls import reverse
 from birthday import BirthdayField, BirthdayManager
-from datetime import date
+from datetime import date, datetime
 
 # Create your models here.
 
@@ -25,10 +26,11 @@ class Lyrics(models.Model):
     lyrics_id = models.AutoField(primary_key=True)
     song_name = models.CharField(max_length=50,)
     song_lyrics = models.TextField()
-    artist = models.CharField(max_length=50, blank=True)
+    artist = models.CharField(max_length=50, help_text="Type 'Unkwown' if Artist name is unkwown")
     album = models.CharField(max_length=50, blank=True)
-    year_recorded = models.IntegerField(choices=Year_Choices, default=2021)
-    date_added = models.DateField(auto_now_add=True)
+    year_recorded = models.IntegerField(choices=Year_Choices, default=2021, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True, editable=False)
+    last_updated = models.DateTimeField(default=datetime.now, editable=False)
     category = models.CharField(max_length=50, choices=category_choices, default='Praise Song')
 
     class Meta:
@@ -45,6 +47,7 @@ class Lyrics(models.Model):
     
     def save(self, *args, **kwargs):
         self.song_name = self.song_name.title()
+        self.last_updated = datetime.now()
         super(Lyrics, self).save(*args, **kwargs)
 
     # def save(self, *args, **kwargs):

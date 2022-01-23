@@ -15,13 +15,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
 
 from member_app import views
+from django.conf import settings
+
+from django.contrib.auth import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
+    
     path('', include('member_app.urls', namespace='church_app')),
     path('', include('lyrics_app.urls', namespace='lyrics_app')),
-    path('api-auth/', include('rest_framework.urls'))
-]
+    path('', include('home_cell.urls', namespace='home_cell')),
+    path('api-auth/', include('rest_framework.urls')),
+    path('accounts/login/', views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('accounts/logout', views.LogoutView.as_view(), name='logout', kwargs={'next_page':'/home/'}),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# if settings.DEBUG:
+#     urlpatterns += [
+#         static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+#     ]

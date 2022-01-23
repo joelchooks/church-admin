@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends 'church_app/attendance/base_form_att.html' %}
+
+{% block title %}
+| Attendance
+{% endblock %}
+
+
+{% block body_block %}
+{% load crispy_forms_tags %}
+
+
+<div class='my-own-row'>
+ 
+
+        <!-- <div class='container' id=''> -->
+            
+            
+            <div id='box' class="container-fluid att-listing">
+                <h2 class='att-title'><u>List of Services and Dates</u></h2>
+              
+                {% if attend %}
+
+                    {% for att in attend %}
+                    <a id='card-att-text' href="{{att.pk}}">
+                        <li class="att-group-item">
+                    ({{att.date}}) {{att}} -- <b>{{ att.overall_total }}</b> Members in Attendance
+                        </li>
+                    </a>
+                    {% endfor %} 
+                {% else %}
+                <h5 text-align='center' class='card-p-java'><b>There are no Attendance to display</b></h5>
+                {% endif %}
+            </div>
+            
+</div>
+{% endblock %}

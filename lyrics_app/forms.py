@@ -14,12 +14,12 @@ class LyricsForm(forms.ModelForm):
         fields = '__all__'
 
         widgets = {
-            'song_name': forms.TextInput(attrs={'class': 'myformcontent'}),
-            'song_lyrics': forms.Textarea(attrs={'class': 'myformcontent'}),
-            'artist': forms.TextInput(attrs={'class': 'myformcontent'}),
-            'album': forms.TextInput(attrs={'class': 'myformcontent'}),
-            'year-recorded': forms.Select(attrs={'class': 'myformcontent'}),
-            'category': forms.Select(attrs={'class': 'myformcontent'}),
+            'song_name': forms.TextInput(),
+            'song_lyrics': forms.Textarea(),
+            'artist': forms.TextInput(),
+            'album': forms.TextInput(),
+            'year-recorded': forms.Select(),
+            'category': forms.Select(),
         }
 
         labels = {
@@ -30,3 +30,8 @@ class LyricsForm(forms.ModelForm):
             'year_recorded': 'YEAR RECORDED',
             'category': 'CATEGORY'
         }
+
+        help_texts = {'artist': "Type 'Unkwown' if Artist name is unkwown",}
+
+
+        

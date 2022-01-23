@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+{% extends 'home_cell/homecell_base.html' %}
+
+{% block title %}
+| Home Cell
+{% endblock %}
+
+
+{% block body_block %}
+{% load crispy_forms_tags %}
+
+<div class='my-own-row'>
+ 
+
+        <!-- <div class='container' id=''> -->
+            
+            <h2 style="color: black;" class='att-title'><u>List of Home Cells</u></h2>
+            <div id='box' class="container-fluid att-listing">
+                
+            </div>
+            
+              <!-- For Spinner Box -->
+              <div align='center' id="spinner-box" class="not-visible">
+                <div class="spinner-border text-primary" role="status"></div>
+            </div>
+</div>
+
+
+
+
+<script>
+
+
+var delay = ( function() {
+        var timer = 0;
+        return function(callback, ms) {
+            clearTimeout (timer);
+            timer = setTimeout(callback, ms);
+        };
+    })();
+
+    
+    const data = '{{qs_json}}'
+    // console.log(data)
+    const rdata = JSON.parse(data.replace(/&quot;/g, '"'))
+    // console.log(rdata.length)
+
+    document.getElementById('member-count').innerHTML = `Total Number Of Cells: ` + rdata.length
+
+    const input = document.getElementById('search-here')
+
+    const spinnerBox = document.getElementById('spinner-box')
+
+
+    const handleGetData = () =>{
+
+    $.ajax({
+        type: 'GET',
+        url: `/api/cells/json/`,
+        success: function(response){
+            const cellData = response.cell_data
+
+            spinnerBox.classList.remove('not-visible')
+            setTimeout(()=>{
+                spinnerBox.classList.add('not-visible')
+                cellData.map(cell=>{
+
+                    box.innerHTML += 
+                        `<a id='card-att-text' href="${cell['id']}">
+                                <li class="att-group-item-cell">
+                                    <b>${cell['cell_name']}</b>
+                                    <p>${cell['cell_address']}</p>
+                                </li>
+                            </a>`
+
+                })
+  
+            }, 500)         
+        },
+
+        error: function(error){
+            console.log(error)
+        }
+    })         
+    }
+
+
+    input.addEventListener('keyup', (e)=>{
+
+    const unwantedChars = ['0','1,','2','3','4','5','6,','7','8','9','.',',','/,','-','-','='] 
+
+    function checkChars(){
+        for (let key in unwantedChars){
+            if (e.target.value.indexOf(key) === 0){
+                return 1
+            }
+        }
+    }
+
+    if (checkChars() === 1){
+        return
+
+    } else if (e.target.value.trim() == "" || e.target.value.trim() == null){
+        // console.log(e.target.value.trim().length)
+        box.innerHTML = ""
+        delay(function(){
+            handleGetData()
+        }, 500 );
+            
+        // }, 5000);
+                    
+
+    } else {
+        let url = window.location.href.split('/')
+        url.pop()
+        url.pop()
+        url = url.join("/")
+        url+=`/api/cells/search/` + e.target.value
+        // console.log(url)
+        fetch(url).then(response => response.json()).then(response => {
+            const filtCellData = response.filt_data
+
+            if (filtCellData.length > 0){
+                box.innerHTML = ""
+
+                filtCellData.map(filtCell=>{
+                    box.innerHTML += 
+                        `<a id='card-att-text' href="${filtCell['id']}">
+                            <li class="att-group-item-cell">
+                                <b>${filtCell['cell_name']}</b>
+                                <p>${filtCell['cell_address']}</p>
+                            </li>
+                        </a>`
+                })
+            } else {
+                box.innerHTML = `<br><br><h5 text-align='center' class='card-p-java' style='color: red;'>Cell Not Found!</h5>`
+            }
+        })
+    }
+
+    })
+
+
+    handleGetData()
+
+</script>
+{% endblock %}

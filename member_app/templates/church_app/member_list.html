@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% extends 'church_app/church_app_base.html' %}
+{% extends 'church_app/base_form_member.html' %}
 {% load static %}
 
 {% block  title %}
@@ -7,30 +7,78 @@
 {% endblock %}
 
 {% block  body_block %}
-    <div class='fix-tops'>
+<!-- <div class='the-parent'> -->
+    
+    
+    <div class="row my-own-row">
+        
 
-    <h3 class='add_title'>Add New Member? <a id='add-member' class="" type="submit" href="{% url 'church_app:form' %}">Add</a></h3>
-    <br>
-    <input id='search-here' class="form-control mb-4" placeholder="Search Members">
+        <div class="col-3">
+      
+            <div id='member-left-col'>
+                <div class="no-scroll-card">
+                    <div class='card-body card-body-mine'>
+                        <h4 class="for-center"><a href="{% url 'church_app:generate-member' %}" style="text-decoration: none;">Advanced Filter Search and Send SMS</a></h4>
+                        <hr>
+                        
+                        <h4 class="for-center"><a href="{% url 'church_app:message_draft' %}" style="text-decoration: none;">View Message Drafts</a></h4>
+                        <hr>
 
-    </div>
-
-        <div class='container' id='member-cont'>
-            
-            
-            <div id='box' class="cards">
-                {% for member in members %}
-                <a id='card-text' class="card" href="{{ member.pk }}">    
-                    <h5><b>{{ member.first_name}} {{ member.middle_name}} {{ member.last_name}}</b></h5> 
-                    <p class='card-p'>{{ member.phone_number }}</p>
-                    <p style="color:rgb(57, 184, 124);" class='card-p'><i>{{ member.email}}</i></p>
-                </a>
-                {% endfor %}
+                        <h4 class="for-center"><a href="{% url 'church_app:message_list' %}" style="text-decoration: none;">View Sent Messages</a></h4>
+                        
+                        <!-- <div class='card'>
+                        
+                        </div> -->
+                    </div>
+                </div>
             </div>
-            
+
         </div>
 
+        <div class="col-9">
+            
+            <div class='container' id='member-cont'>
+                {% if messages %}
+                    {% for message in messages %}
+                    <div id='list-msg' class="alert {{ message.tags }} alert-dismissible shadow fade show" role="alert">
+                        <button type="button" class="toast hide" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ message | safe }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            
+                
+                {% if members %}
+               
 
+ 
+
+                <div id='box' class="my-own-cards">
+
+                    
+                </div>
+
+                <!-- For All Load More -->
+                <div align='center' id="spinner-box" class="not-visible">
+                    <div class="spinner-border text-primary" role="status"></div>
+                </div>
+                <div align='center' id='loading-box' class="not-visible mb-5 mt-2">
+                    <button class="btn btn-primary" id='load-more'>Load More</button>
+                </div>
+
+            
+                
+                
+                {% else %}
+                <h3 align='center'>There are no details to display</h3>
+                {% endif %}
+                
+            </div>
+        </div>
+    </div>
+<!-- </div> -->
             
 
 {% endblock %}
@@ -38,82 +86,233 @@
 
 {% block scripts %}
 
+
+<script>
+    const mess = document.getElementById('msg')
+    // console.log(mess.innerHTML)
+    mess.classList.add('not-visible')
+
+
+    var fadeTarget = document.getElementById('list-msg')
+    // console.log(mess.innerHTML)
+
+    function fadeOutEffect() {
+            var fadeEffect = setInterval(function () {
+                if (!fadeTarget.style.opacity) {
+                    fadeTarget.style.opacity = 1;
+                }
+                if (fadeTarget.style.opacity > 0) {
+                    fadeTarget.style.opacity -= 0.1;
+                } else {
+                    clearInterval(fadeEffect);
+                }
+
+            }, 500);
+            
+    }
+
+
+    fadeOutEffect()
+
+    setTimeout(()=>{
+        fadeTarget.classList.add('not-visible')
+    }, 5000)
+    
+
+
+</script>
+
 <script>
 
-      
+
+    var delay = ( function() {
+        var timer = 0;
+        return function(callback, ms) {
+            clearTimeout (timer);
+            timer = setTimeout(callback, ms);
+        };
+    })();
+
     
     const data = '{{qs_json}}'
+    // console.log(data)
     const rdata = JSON.parse(data.replace(/&quot;/g, '"'))
+    // console.log(rdata.length)
+
+    document.getElementById('member-count').innerHTML = `Total Number Of Members: ` + rdata.length
+
     const input = document.getElementById('search-here')
 
-    // console.log(rdata)
+
+
+
+    const postBox = document.getElementById('box')
+    const spinnerBox = document.getElementById('spinner-box')
+    const loadBtn = document.getElementById('load-more')
+    const loadBox = document.getElementById('loading-box')
+
+
+    let visible = 15
+
+    const handleGetData = () =>{
+
+            $.ajax({
+                type: 'GET',
+                url: `/members/json/${visible}/`,
+                success: function(response){
+                    maxSize = response.max_member
+                    const membData = response.memb_data
+                    // console.log(membData)
+                    loadBox.classList.remove('not-visible')
+                    spinnerBox.classList.remove('not-visible')
+                    setTimeout(()=>{
+                        spinnerBox.classList.add('not-visible')
+                        membData.map(member=>{
+                            // console.log(member.member_id)
+                            box.innerHTML += `<a style="" id="card-text" class="my-own-card" href='${member['member_id']}'><h5><b>${member['first_name']} ${member['middle_name']} ${member['last_name']}</b></h5><p><b>${member['phone_number']}</b></><p style="color:rgb(57, 184, 124); align-self: flex-end;" class='card-p'><i><b>${member['gender']}</b></i>
+                                <span style="color:rgb(57, 184, 124); float: right;" <i><b>${member['member_status']}</b></i></span></p></a>`
+                                
+                        })
+                        if (maxSize){
+                            loadBox.innerHTML = `<h5 text-align='center' class='card-p-java'><b>There Are No More Member Cards To Load!</b></h5>`
+                        }
+                    }, 500)         
+                },
+
+                error: function(error){
+                    console.log(error)
+                }
+            })         
+    }
+
 
     input.addEventListener('keyup', (e)=>{
         
-        const unwantedChars = ['0','1,','2','3','4','5','6,','7','8','9','.',',','/,','-','-','='] 
+            const unwantedChars = ['0','1,','2','3','4','5','6,','7','8','9','.',',','/,','-','-','='] 
 
-        function checkChars(){
-            for (let key in unwantedChars){
-                if (e.target.value.indexOf(key) === 0){
-                    return 1
+            function checkChars(){
+                for (let key in unwantedChars){
+                    if (e.target.value.indexOf(key) === 0){
+                        return 1
+                    }
                 }
             }
-        }
+
+            if (checkChars() === 1){
+                return
             
-
-
-
-        
-        if (e.target.value.trim() === "" || checkChars() === 1){
-            box.innerHTML = ""
-            rdata.map(member=>{
-                box.innerHTML += `<a id="card-text" class="card" href='${member['member_id']}'><h5><b>${member['first_name']} ${member['middle_name']} ${member['last_name']}</b></h5><p class='card-p'>${member['phone_number']}</p>
-                <p style="color:rgb(57, 184, 124);" class='card-p'><i>${member['email']}</i></p></a>`
-            })
-            return
-        }       
-        
-       
-
-        // filteredArr = rdata.filter(member=> member['first_name'].toLowerCase().includes(e.target.value.toLowerCase()))
-        
-        let url = window.location.href.split('/')
-        url.pop()
-        url.pop()
-        url = url.join("/")
-        url+='/api/members/search/' + e.target.value
-        fetch(url).then(response => response.json()).then(filteredArr => {
-            // console.log(filteredArr)
-
-            if (filteredArr.length > 0){
+            } else if (e.target.value.trim() == "" || e.target.value.trim() == null){
+                console.log(e.target.value.trim().length)
                 box.innerHTML = ""
-                filteredArr.map(member=>{
-                    box.innerHTML += `<a id="card-text" class="card" href='${member['member_id']}'><h5><b>${member['first_name']} ${member['middle_name']} ${member['last_name']}</b></h5><p class='card-p'>${member['phone_number']}</p>
-                    <p style="color:rgb(57, 184, 124);" class='card-p'><i>${member['email']}</i></p></a>`
-            })
-        } else {
-            box.innerHTML = `<h5 text-align='center' class='card-p-java'><b>No results found!</b></h5>`
-        }
+                delay(function(){
+                    handleGetData()
+                }, 500 );
+                    
+                // }, 5000);
+                            
 
+            } else {
+                let url = window.location.href.split('/')
+                url.pop()
+                url.pop()
+                url = url.join("/")
+                url+=`/api/members/search/` + e.target.value
+                fetch(url).then(response => response.json()).then(response => {
+                    const filtMembData = response.filt_data
+                    loadBox.classList.add('not-visible')
+
+                    if (filtMembData.length > 0){
+                        box.innerHTML = ""
+
+                        filtMembData.map(filtMemb=>{
+                            box.innerHTML += `<a style="" id="card-text" class="my-own-card" href='${filtMemb['member_id']}'><h5><b>${filtMemb['first_name']} ${filtMemb['middle_name']} ${filtMemb['last_name']}</b></h5><p style="color:rgb(57, 184, 124); align-self: flex-end;" class='card-p'><i><b>${filtMemb['gender']}</b></i>
+                                <span style="color:rgb(57, 184, 124); float: right;" <i><b>${filtMemb['member_status']}</b></i></span></p></a>`
+                        })
+                    } else {
+                        box.innerHTML = `<h5 text-align='center' class='card-p-java' style='color: red;'>You Have Reached The End!</h5>`
+                    }
+                })
+            }
+  
         })
+    
 
-        
+    handleGetData()
+    
 
+    loadBtn.addEventListener('click', ()=>{
+        visible += 15
+        handleGetData()
     })
 
 
 
-</script>
-<script>
-    $().ready(function() {
-        var $scrollingDiv = $("#member-cont");
 
-        $(window).scroll(function(){            
-            $scrollingDiv
-                .stop()
-                .animate({"marginTop": ($(window).scrollTop() )}, "slow" );         
-        });
-    });
+
+    
+    
+
+    // rdata.map(member=>{
+    //     console.log(member.id)
+    // })
+
+
+    // input.addEventListener('keyup', (e)=>{
+
+        
+        // const unwantedChars = ['0','1,','2','3','4','5','6,','7','8','9','.',',','/,','-','-','='] 
+
+        //     function checkChars(){
+        //         for (let key in unwantedChars){
+        //             if (e.target.value.indexOf(key) === 0){
+        //                 return 1
+        //             }
+        //         }
+        //     }
+
+
+        // if (e.target.value.trim() === "" || checkChars() === 1){
+        //     box.innerHTML = ""
+        //     box.innerHTML += `<a id="card-text" class="my-own-card" href='${member['member_id']}'><h5><b>${member['first_name']} ${member['middle_name']} ${member['last_name']}</b></h5><p class='card-p'>${member['phone_number']}</p>
+        //     <p style="color:rgb(57, 184, 124);" class='card-p'><i>${member['email']}</i></p></a>`
+        // }
+
+            
+                    
+                    // rdata.map(member=>{
+                    //     box.innerHTML += `<a id="card-text" class="my-own-card" href='${member['member_id']}'><h5><b>${member['first_name']} ${member['middle_name']} ${member['last_name']}</b></h5><p class='card-p'>${member['phone_number']}</p>
+                    //     <p style="color:rgb(57, 184, 124);" class='card-p'><i>${member['email']}</i></p></a>`
+                    // })
+                    // return
+                // }       
+
+
+            
+        // filteredArr = rdata.filter(member=> member['first_name'].toLowerCase().includes(e.target.value.toLowerCase()))
+
+        // let url = window.location.href.split('/')
+        // url.pop()
+        // url.pop()
+        // url = url.join("/")
+        // url+=`/api/members/search/${visible}` + e.target.value
+        // fetch(url).then(response => response.json()).then(filteredArr => {
+        // // console.log(filteredArr)
+
+        // if (filteredArr.length > 0){
+        //     box.innerHTML = ""
+        //     filteredArr.map(member=>{
+        //         box.innerHTML += `<a id="card-text" class="my-own-card" href='${member['member_id']}'><h5><b>${member['first_name']} ${member['middle_name']} ${member['last_name']}</b></h5><p class='card-p'>${member['phone_number']}</p>
+        //         <p style="color:rgb(57, 184, 124);" class='card-p'><i>${member['email']}</i></p></a>`
+        // })
+        // } else {
+        //     box.innerHTML = `<h5 text-align='center' class='card-p-java'><b>No results found!</b></h5>`
+        // }
+
+        // })
+
+        
+
+    // })
 </script>
 
 <script src="{% static 'js/church_app_js.js' %}"></script>

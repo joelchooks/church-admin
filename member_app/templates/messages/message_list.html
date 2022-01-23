@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% extends 'church_app/church_app_base.html' %}
+{% load static %}
+
+{% block title %} 
+| SMS
+{% endblock %}
+
+{% block  body_block %}
+    
+    <div class='container mt-5'>  
+        <h2 class='att-title mb-'><u>List of SMS Dates</u></h2>
+
+            {% if objects %}
+            
+                {% for object in objects %}
+                
+                    <a class='mess_list_link' id='card-att-text' href="{{object.pk}}">
+                        <li class="col-9 col-md-9 col-sm-9 att-group-item">
+                                {{object.message_text|truncatewords_html:10|safe}}...
+                        </li>
+                    </a>
+                {% endfor %}
+
+            {% else %}
+                <div align='center'><b>There Are No Sent Messages To Display</b></div>
+            {% endif %}
+        
+    </div>
+
+
+            
+    
+
+{% endblock %}

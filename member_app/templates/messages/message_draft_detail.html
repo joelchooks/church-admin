@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+{% extends 'church_app/church_app_base.html' %}
+{% load static %}
+
+{% block title %} 
+| SMS
+{% endblock %}
+
+{% block  body_block %}
+    
+<div id='cont_box' class='container mt-3'> 
+        
+            <h4 style="margin-top: 0; color: rgb(7, 109, 75);" align='center'><b>Draft SMS Message Attributes</b></h4>
+            <hr>
+            <div class="row">
+                
+                <div class="col-sm-6 col-md-6">
+                    <b>Sender Name:</b>
+                    <p id="senderName" class="compute_boxes">{{object.sender_name}}</p>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <b>Flash Message?</b>
+                    <p id="senderFlash" class="compute_boxes">{% if object.flash %}Yes{% else %}No{% endif %}</p>
+                </div>
+            </div>
+           
+
+            <div class="row">
+                <div class="col-12">
+                    <b>Recipient(s):</b>
+                    <div id="senderRecipe" class="sms_border_style compute_boxes">{{object.recipients}}</div>
+                </div>
+            </div>
+            
+
+            <div class="row">
+                <div class="col-12">
+                    <b>Message Body:</b>
+                    <p id="senderMess" class="sms_border_style compute_boxes">{{object.message_text}}</p>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 1rem; margin-bottom: 2rem;" align='center'>
+                
+                <div class="col-4">
+                    <a href="{% url 'church_app:message_draft' %}" class="btn btn-primary btn-lg">
+                        <span class="glyphicon glyphicon-search"></span> Back To List
+                    </a>
+                </div>
+                
+                <div class="col-4">
+                    <button id='smsbutton' type='submit' class="btn btn-danger btn-lg">
+                            <span class="glyphicon glyphicon-search"></span> Send SMS
+                    </button>
+                </div>
+                
+
+                <div class="col-4">
+                    <a href="{% url 'church_app:message_update' pk=object.pk %}" class="btn btn-warning btn-lg">
+                        <span class="glyphicon glyphicon-search"></span> Edit
+                    </a>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div id="resultee"></div>
+
+</div>
+
+{% endblock %}
+
+{% block  scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+
+    var username = '{{username}}'
+    var apikey = '{{api_key}}'
+
+    const getButton = document.getElementById('smsbutton')
+    var sendName = document.getElementById('senderName').innerHTML
+    
+    var sendRecipe = document.getElementById('senderRecipe').innerHTML
+    var sendMess = document.getElementById('senderMess').innerHTML
+
+    var sendFlash;
+    
+    if (document.getElementById('senderFlash').innerHTML == 'Yes'){
+        sendFlash = 1
+    } else if (document.getElementById('senderFlash').innerHTML == 'No'){
+        sendFlash = 0
+    } 
+
+
+    let url = "http://api.ebulksms.com:8080/sendsms?username=" + username + "&apikey=" + apikey + "&sender=" + sendName + "&messagetext=" + sendMess + "&flash=" + sendFlash + "&recipients=" + sendRecipe
+
+    url = encodeURI(url, "UTF-8");
+    // console.log(url)
+
+    let datss = {"approved_message": true}
+
+    $('button').click(function() {
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function(result) {
+                if (result == 'INVALID_SENDER'){
+                    $('#cont_box').html("<b>Message Failed Because The Sender Name Entered Is Not Valid Or Is Missing. Go Back And Try Again!</b>");
+                }
+                else if (result == 'INSUFFICIENT_CREDIT'){
+                    $('#cont_box').html("<b>Message Failed Because Of Insufficient Credit. Contact The Admin To Recharge The Service With Credit And Try Again!</b>")
+                }
+                else if (result == 'INVALID_MESSAGE'){
+                    $('#cont_box').html("<b>Message Failed Because The Text Is Either Too Long Or Contains Characters That Cannot Be Sent. Go Back And Try Again!</b>")
+                }
+                else if (result == 'MISSING_RECIPIENT'){
+                    $('#cont_box').html("<b>Message Failed Because No Valid Phone Number Was Found. Go Back And Try Again!</b>")
+                }
+                else if (result == 'MISSING_MESSAGE'){
+                    $('#cont_box').html("<b>Message Failed Because Of The Messgage Box Is Empty, Hence No Message To Send. Go Back And Try Again!</b>")
+                }
+                else if (result == 'MISSING_SENDER'){
+                    $('#cont_box').html("<b>Message Failed Because Of The Sender Name Is Empty. Go Back And Try Again!</b>")
+                }
+                else if (result == 'AUTH_FAILURE'){
+                    $('#cont_box').html("<b>Message Failed Because The Username And API Key Combination Is Not Correct. Contact The Admin To Check!</b>")
+                }
+                else if (result == 'MISSING_APIKEY'){
+                    $('#cont_box').html("<b>Message Failed Because The API Key Field Is Empty. Contact The Admin To Check!</b>")
+                }
+                else if (result == 'MISSING_USERNAME'){
+                    $('#cont_box').html("<b>Message Failed Because The Username Field Is Empty. Contact The Admin To Check!</b>")
+                }
+                else{
+                    $('#cont_box').html("<b>Message Sent Successfuly!</b>" + "<hr> <p>" + result + "</p>")
+                
+                    $.ajax({
+                        url: window.location.href + 'status/',
+                        type: 'PATCH',
+                        data: datss,
+                        success: function(data) {
+                            alert('Message Sent Successfuly.');
+                        },
+                        error: function(error) {
+                            console.log(error);
+                            alert("Error! Could not update approved message!")
+                        }
+                    });
+                }
+            },
+            error: function(error) {
+                console.log(error);
+                $('#cont_box').html("Message Did not go through. Here are the details: " + error);
+            }
+        });
+    });
+
+
+
+    // const getData = () => {
+    //     fetch(url).then(response => {
+    //         console.log(response)
+    //     });
+    // };
+    
+    // getButton.addEventListener('onSubmit', getData);
+
+//Ajax Function to send a get request
+// $( "#smsbutton" ).submit(function( event ) {
+//     $.ajax({
+//         type: "GET",
+//         url: url,
+//         dataType:"jsonp",
+//         success: function(response){
+//             //if request if made successfully then the response represent the data
+//             console.log('success')
+//             console.log(response)
+//             $( "#result" ).empty().append( response );
+//         }
+//     });
+// })
+
+// function myFetch(url) {
+//   let response = fetch(url);
+//   let data = response.json();
+//   return data;
+// }
+
+    // if (isset($_POST['button'])) {
+    //     // $username = $_POST['username'];
+    //     // $apikey = $_POST['apikey'];
+    //     $sendername = substr($_POST[sendName], 0, 11);
+    //     $recipients = $_POST[sendRecipe];
+    //     $message = $_POST[sendMess];
+    //     $flash = sendFlash;
+    //     if (get_magic_quotes_gpc()) {
+    //         $message = stripslashes($_POST[sendMess]);
+    //     }
+    //     $message = substr($_POST[sendMess], 0, 160);
+    //     $result = useJSON($json_url, $username, $apikey, $flash, $sendername, $message, $recipients);
+    // }
+
+
+
+</script>
+{% endblock %}

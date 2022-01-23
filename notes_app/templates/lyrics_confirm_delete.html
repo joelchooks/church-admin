@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% extends 'church_app/church_app_base.html' %}
+
+{% block title %}
+| Lyrics
+{% endblock %}
+
+
+{% load static %}
+{% block  body_block %}
+    <hr>
+    <div class='container lyrics-text'>    
+
+        <form method="POST">
+            {% csrf_token %}
+            <p>Are you sure you want to delete?</p>
+            <div id='lyrics-button'></div>
+            <a id='update-button' class='btn btn-primary' inline='True' href="{% url 'lyrics_app:detail' pk=lyrics.pk %}">Cancel</a>
+            <input type="submit" class='btn btn-danger' value="Confirm">
+            </div>
+        </form>
+    </div>
+
+
+    <!-- class='post-delete' -->
+            
+    
+
+{% endblock %}

@@ -1,0 +1,221 @@
+{% extends 'church_app/church_app_base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load member_app_extras %}
+
+{% block body_block %}
+<div class="container adv-search-box">
+
+    <div class="jumbotron">
+        <form method="GET">
+            <div class="well">
+                <div>
+                    <a class="arrow-show" href="{% url 'church_app:list' %}"><img id='filter_back-arrow-img' src="{% static 'icons/left-arrow-button.png' %}" alt="" srcset="" style="float: left;"></a></div>
+                    
+                    <h4 style="margin-top: 0" align='center'><b>Carry Out Advanced Filter Search Here</b></h4>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="form-group col-sm-4 col-md-3">
+                        {{ filter.form.date_joined.label_tag }} 
+                        {% render_field filter.form.date_joined class="form-control" %}
+                        <hr>
+                        {{ filter.form.date_joined__gt.label_tag }}
+                            {% render_field filter.form.date_joined__gt id='datepicker' class="form-control" %}
+                            {{ filter.form.date_joined__lt.label_tag }}
+                            {% render_field filter.form.date_joined__lt id='datepicker' class="form-control" %}
+                    </div>
+                    <div class="form-group col-sm-4 col-md-3">
+                        {{ filter.form.gender.label_tag }}
+                        {% render_field filter.form.gender class="form-control" %}
+                        <hr>
+                        <p>{{ filter.form.wing.label_tag }}
+                            {% render_field filter.form.wing class="form-control" %}</p>
+                    </div>
+                    <div class="form-group col-sm-4 col-md-3">
+                        {{ filter.form.department.label_tag }}
+                        {% render_field filter.form.department class="form-control" %}
+                        <hr>
+                    
+                    </div>
+                    <div class="form-group col-sm-4 col-md-3">
+                        
+                        {{ filter.form.birthday__gte.label_tag }}
+                        {% render_field filter.form.birthday__gte class="form-control" %}
+                        {{ filter.form.birthday__lte.label_tag }}
+                        {% render_field filter.form.birthday__lte class="form-control" %}
+                    
+                    </div>
+                    
+                    
+                </div>
+                <div style="margin-top: 1rem;">
+                
+                    <button type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-search"></span> Search
+                    </button>
+                    
+                   
+
+                    <div style="float: right;">
+                       
+                        <button id='copyButton' type="button" class="btn btn-outline-danger" onclick="myStopFunction()">
+                            <svg xmlns="" width="16" height="17" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"></path>
+                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"></path>
+                            </svg> <span id='copyText'>Copy Phone Numbers</span>
+                        </button>
+                        <!-- <span class="copy-icon-message" aria-hidden="true" style="top: 52px;">Copied!</span> -->
+                        <a href="{% url 'church_app:message_form' %}" class="btn btn-warning">Proceed To Send SMS</a>
+                    </div>
+                
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container-fluid">
+  <table id='myTable' class="table table-bordered">
+    <thead>
+      <tr class='list-table-head'>
+        <th>Names</th>
+        <th>Phone Number</th>
+        <th>Gender</th>
+        <th>Member?</th>
+        <th>Home Cell</th>
+        <th>Birthday</th>
+        <th>Department</th>
+        <th>Wing</th>
+        <th>Date Joined</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in page_obj %}
+        <tr>
+          <td><a style="text-decoration: none;" href="{% url 'church_app:detail' pk=user.pk %}">{{ user.first_name }} {{ user.last_name }}</a></td>
+          <td id='allNumbers'>{{ user.phone_number }}</td>
+          <td>{{ user.gender }}</td>
+          <td><div align='center'>
+            {% if user.is_member %}
+                <em class="text-muted">Yes</em>
+            {% else %}
+                <b>No</b>
+            {% endif %}
+            </div>
+          </td>
+          <td> 
+            {% if user.home_cell %}
+                    {{ user.home_cell }}
+            {% else %}
+                <em class="text-muted">No Home Cell</em>
+            {% endif %}
+        </td>
+          <td> {% if user.birthday %}
+            {{ user.birthday }}
+            {% else %}
+                <em class="text-muted">No Birthday</em>
+            {% endif %}
+        </td>
+          <td>{% if user.department %}
+            {{ user.department }}
+            {% else %}
+                <em class="text-muted">No Department</em>
+            {% endif %}
+        </td>
+          <td>{% if user.wing %}
+            {{ user.wing }}
+            {% else %}
+                <em class="text-muted">No Wing</em>
+            {% endif %}</td>
+          <td>{{ user.date_joined|date:"M. d, Y"}}</td>
+          
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7" align="center">No Data Available</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+</div>
+<div>
+    <div id="page_ul_style_label">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+    </div>
+    
+    <ul id="page_ul_style" class="pagination">
+        {% if page_obj.has_previous %}
+            <li><a class="paginate_boxes" href="{% my_url 1 'page' request.GET.urlencode %}">&laquo; First </a></li>
+            <li><a class="paginate_boxes" href="{% my_url page_obj.previous_page_number 'page' request.GET.urlencode %}"> Previous </a></li>
+        {% endif %}
+        
+        {% if page_obj.has_next %}
+            <li><a class="paginate_boxes" href="{% my_url page_obj.next_page_number 'page' request.GET.urlencode %}"> Next </a></li>
+            <li><a class="paginate_boxes" href="{% my_url page_obj.paginator.num_pages 'page' request.GET.urlencode %}"> Last &raquo;</a></li>
+        {% endif %}
+    </ul>
+</div>
+
+{% endblock %}
+
+   
+
+
+{% block scripts %}
+
+<script>
+
+    function myStopFunction() {
+        var getTextCopy = document.getElementById('copyText')
+
+        var copyNumbers = document.querySelectorAll("allNumbers");
+
+        getTextCopy.innerHTML = 'Copied!'
+        setTimeout(function(){
+            if (getTextCopy.innerHTML = 'Copied!'){
+                getTextCopy.innerHTML = 'Copy Phone Numbers';
+            }
+        }, 1500);
+        var numberListCopy = []
+        $('#myTable tr').each(function(){
+            $(this).find('#allNumbers').each(function(){
+            //do your stuff, you can use $(this) to get current cell
+                numbCopy = parseInt('234' + parseInt($(this).html()))
+                numberListCopy.push(numbCopy)
+                // console.log('hey')
+            })
+        })
+
+        // Get Text
+        navigator.clipboard.writeText(numberListCopy);
+    }
+
+
+
+
+</script>
+
+<!-- <script>
+    var myArray = []
+    
+
+    $.ajax({
+        method:'GET',
+        url:'https://reqres.in/api/users',
+        success:function(response){
+            myArray = response.data
+            buildTable(myArray)
+            console.log(myArray)
+        }
+    })
+
+
+</script> -->
+
+{% endblock %}

@@ -1,56 +1,92 @@
 from django import forms
+from django.db import models
 from django.db.models import fields
-from member_app.models import Member
+from django.forms import widgets
+
+from member_app.models import Member, MemberAttendance, Service
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Column, Layout, Row, Submit
 from crispy_forms.bootstrap import InlineField
 from django.forms.widgets import NumberInput, DateInput, SelectDateWidget
+# from bootstrap_datepicker_plus import DatePickerInput
+from django.core.validators import RegexValidator, MinLengthValidator
 
 
 class MemberForm(forms.ModelForm):
     class Meta():
         model = Member
         fields = '__all__'
+        exclude = ('member_id', 'is_member', 'member_age',)
 
         widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'myformcontent'}),
-            'middle_name': forms.TextInput(attrs={'class': 'myformcontent'}),
-            'last_name': forms.TextInput(attrs={'class': 'myformcontent'}),
-            'gender': forms.Select(attrs={'class': 'myformcontent'}),
-            'phone_number': forms.TextInput(attrs={'type': 'tel', 'class': 'myformcontent'}),
-            'state_of_origin': forms.Select(attrs={'class': 'myformcontent'}),
-            'address': forms.TextInput(attrs={'class': 'myformcontent'}),
-            'department': forms.TextInput(attrs={'class': 'myformcontent'}),
-            'email': forms.EmailInput(attrs={'class': 'myformcontent'}),
-            'home_cell': forms.TextInput(attrs={'class': 'myformcontent'}),
-            'marital_status': forms.Select(attrs={'class': 'myformcontent'}),
-            'occupation': forms.TextInput(attrs={'class': 'myformcontent'}),
-            'wing': forms.Select(attrs={'class': 'myformcontent'}),
-            'birthday': forms.SelectDateWidget(empty_label=('Year', 'Month', 'Day'))
+            'first_name': forms.TextInput(),
+            'middle_name': forms.TextInput(),
+            'last_name': forms.TextInput(),
+            'gender': forms.Select(),
+            'phone_number': forms.TextInput(attrs={'placeholder':"Enter Numbers Only", 'type': 'tel',}),
+            'other_number': forms.TextInput(attrs={'placeholder':"Enter Numbers Only", 'type': 'tel',}),
+            'email': forms.EmailField(),
+            'state_of_origin': forms.Select(),
+            'address': forms.TextInput(),
+            'department': forms.Select(),
+            'email': forms.EmailInput(),
+            'home_cell': forms.Select(),
+            'marital_status': forms.Select(),
+            'occupation': forms.TextInput(),
+            'wing': forms.Select(attrs={'placeholder':"E.g: Men's Forum"}),
+            'member_status': forms.Select(),
+            'birthday': forms.DateInput(attrs={'type': 'date'}),
+            'is_baptized': forms.Select(),
+            'done_foundation': forms.Select(),
+            'done_maturity':forms.Select(),
         }
 
         labels = {
-            'first_name': 'FIRST NAME',
-            'middle_name': 'MIDDLE NAME',
-            'last_name': 'LAST NAME',
-            'gender': 'GENDER',
-            'state_of_origin': 'STATE OF ORIGIN',
-            'address': 'ADDRESS',
-            'birth_day': 'BIRTH DAY',
-            'birth_month': 'BIRTH MONTH',
-            'department': 'DEPARTMENT',
-            'phone_number': 'PHONE NUMBER',
-            'email':'EMAIL',
-            'home_cell':'HOME CELL',
-            'marital_status': 'MARITAL STATUS',
-            'occupation':'OCCUPATION',
-            'wing':'WING',
-            'birthday':'BIRTHDATE'
+            'first_name': 'First Name',
+            'middle_name': 'Middle Name',
+            'last_name': 'Last Name',
+            'gender': 'Gender',
+            'phone_number': 'Phone Number',
+            'other_number': 'Other Number',
+            'email':'E-mail',
+            'state_of_origin': 'State Of Origin',
+            'address': 'House Address',
+            'department': 'Department',
+            'home_cell':'Home Cell',
+            'marital_status': 'Marital Status',
+            'occupation':'Occupation',
+            'wing':'Forum',
+            'member_status':'Member Status', 
+            'birthday': 'Birthday',
+            'is_baptized':'Water Baptism Status',
+            'done_foundation':'Done Foundation Class?',
+            'done_maturity':'Done Maturity Class?'       
             }
 
-        
 
-        
+
+
+class MemberAttendanceForm(forms.ModelForm):
+    class Meta:
+        model = MemberAttendance
+        fields = ('date', 'service_Type',)
+
+        widgets = {
+            'date': forms.SelectDateWidget(attrs = {'type': 'date'})
+        }
+
+
+class ServiceForm(forms.ModelForm):
+    class Meta:
+        model = Service
+        fields = '__all__'
+
+
+
+# DatePickerInput(
+#                 options={
+#                     "format": "mm/dd/yyyy",
+#                     "autoclose": True})
 
     # def __init__(self, *args, **kwargs):
     #     super().__init__(*args, **kwargs)
@@ -64,4 +100,4 @@ class MemberForm(forms.ModelForm):
     #             Column('middle_name')
     #         )
     #     )
-                
+

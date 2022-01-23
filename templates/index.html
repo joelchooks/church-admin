@@ -3,11 +3,49 @@
 {% load static %}
 {% block  body_block %}
 
+
    
     <div class="container">
-        <marquee behavior="scroll" direction="left" scrollamount="10"><h1>Welcome to Church!</h1></marquee>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible shadow fade show" role="alert">
+            <button type="button" class="toast hide" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message | safe }}
+        </div>
+        {% endfor %}
+    {% endif %}
+        <marquee behavior="scroll" direction="left" scrollamount="10"><h1 class='index-h1'>Welcome to Church!</h1></marquee>
+
+        <input type="hidden" id="myVar1" name="variable1" value="{{ google_api_key }}">
         
+        {% if user.is_authenticated %}
+
+        <h3 align='center'>Logged in as Admin</h3>
+
+        {% else %}
+        <h3 align='center'>Are You an Admin? Please Login in below</h3>
+
+        <a class="btn btn-primary" id='login_button' href="{% url 'login' %}">Login</a>
+
+        
+
+        {% endif %}
     </div>
 
+
+    <!-- <div>
+        <iframe src="{% static 'icons/FUTOMedMainCon.kml' %}" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div> -->
+
     <script src="{% static 'js/church_app_js.js' %}"></script>
+
+    <script>
+        const mess = document.getElementById('msg')
+        console.log(mess.innerHTML)
+        mess.classList.add('not-visible')
+
+    </script>
 {% endblock %}

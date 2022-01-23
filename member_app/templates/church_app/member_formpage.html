@@ -1,67 +1,181 @@
 <!DOCTYPE html>
 {% extends 'church_app/church_app_base.html' %}
-{% block  body_block %}
 {% load crispy_forms_tags %}
+{% load widget_tweaks %}
 
-    <div class="myform">
+{% block title %}
+| Member Form
+{% endblock %}
+
+{% block  body_block %}
+
+
+
+    <div class="myform" style="background-color:rgb(41, 53, 49); color: white; font-family: sans-serif;">
       <!-- <div class='row'>
         <div class='col-sm-3 offset-sm-3'> -->
 
           <h1>Fill out the form!</h1>
-          <form method="POST">
+
+          <form method="POST" style="margin-right: 1rem; margin-left: 1rem;">
+
+
+            <!-- For error messages -->
+
+              {% if form.errors %}
+              <!-- Error messaging -->
+                <div id="errors">
+                    <div class="inner" style="color: rgb(245, 55, 55);">
+                        <p>There were some errors in the information you entered. Please correct the following:</p>
+                        <ul>
+                            {% for field in form %}
+                                {% if field.errors %}<li>{{ field.label }}: {{ field.errors|striptags }}</li>{% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+              <!-- /Error messaging -->
+            {% endif %}
+
             {% csrf_token %}
-            <!-- <div class='row'> -->
-              <p><div class='child'>
-                {{ form.first_name|as_crispy_field }}
-              </div>
-              <div class='child'>
-                {{ form.middle_name|as_crispy_field }}
-              </div>
-              <div class='child'>
-                {{ form.last_name|as_crispy_field }}
-              </div></p>
 
-              <p><div class='child'>
-                {{ form.phone_number|as_crispy_field }}
-              </div>
-              <div class='child'>
-                {{ form.email|as_crispy_field }}
-              </div>
-              <div class='child'>
-                {{ form.address|as_crispy_field }}
-              </div></p>
+              
+            <!-- One -->
+            <div class="row">
+              <div class="col-md-6">
+                  <div id="member_form_field">
+                    <div id='member_form_lab_tags1'><h5 style="margin-bottom: 4px;"><b><span style="color: rgb(245, 55, 55);" class="asteriskField">* </span>{{ form.first_name.label_tag }}</b></h5></div>
+                    {% render_field form.first_name class="form-control" %}
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div id="member_form_field">
+                    <div id='member_form_lab_tags1'><h5 style="margin-bottom: 4px;"><b><span style="color: rgb(245, 55, 55);" class="asteriskField">* </span>{{ form.last_name.label_tag }}</b></h5></div>
+                    {% render_field form.last_name class="form-control" %}
+                  </div>
+                </div>
+            </div>
 
-              <p><div class='child'>
-                {{ form.state_of_origin|as_crispy_field }}
-              </div>
-              <div class='child'>
-                {{ form.gender|as_crispy_field }}
-              </div>
-              <div class='child'>
-                {{ form.marital_status|as_crispy_field }}
-              </div></p>
+            <!-- Two -->
+            <div class="row">
+              <div class="col-md-6">
+                  <div id="member_form_field">
+                    <div id='member_form_lab_tags1'><h5 style="margin-bottom: 4px;"><b>{{ form.middle_name.label_tag }}</b></h5></div>
+                    {% render_field form.middle_name class="form-control" %}
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div id="member_form_field">
+                    <div id='member_form_lab_tags1'><h5 style="margin-bottom: 4px;"><b>{{ form.email.label_tag }}</b></h5></div>
+                    {% render_field form.email class="form-control" %}
+                  </div>
+                </div>
+            </div>
 
-              <p><div class='child'>
-                {{ form.birthday|as_crispy_field }}
-              </div>
-              <div class='child'>
-                {{ form.occupation|as_crispy_field }}
-              </div></p>
+            <!-- Three -->
+            <div class="row">
+              <div class="col-md-6">
+                  <div id="member_form_field">
+                    <div id='member_form_lab_tags1'><h5 style="margin-bottom: 4px;"><b><span style="color: rgb(245, 55, 55);" class="asteriskField">* </span>{{ form.phone_number.label_tag }}</b></h5></div>
+                    {% render_field form.phone_number class="form-control" %}
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div id="member_form_field">
+                    <div id='member_form_lab_tags1'><h5 style="margin-bottom: 4px;"><b>{{ form.other_number.label_tag }}</b></h5></div>
+                    {% render_field form.other_number class="form-control" %}
+                  </div>
+                </div>
+            </div>
 
-              <p><div class='child'>
-                {{ form.home_cell|as_crispy_field }}
+            <!-- Four -->
+            <div class="row">
+              <div class="col-md-6">
+                  <div id="member_form_field">
+                    <div id='member_form_lab_tags1'><h5 style="margin-bottom: 4px;"><b>{{ form.address.label_tag }}</b></h5></div>
+                    {% render_field form.address class="form-control" %}
+                  </div>
               </div>
-              <div class='child'>
-                {{ form.department|as_crispy_field }}
+              <div class="col-md-6">
+                <div id="member_form_field">
+                  <div id='member_form_lab_tags1'><h5 style="margin-bottom: 4px;"><b><span style="color: rgb(245, 55, 55);" class="asteriskField">* </span>{{ form.gender.label_tag }}</b></h5></div>
+                  {% render_field form.gender class="form-control" %}
+                </div>
               </div>
-              <div class='child'>
-                {{ form.wing|as_crispy_field }}
-              </div></p>
+              
+                
+            </div>
 
-            <!-- </div> -->
- 
-            <p><input id='mybutt' type="submit" class="btn btn-primary" value="Submit"></p>
+            <!-- Five -->
+            <div class="row">
+              <div class="col-md-6">
+                  <div id="member_form_field">
+                    <div id='member_form_lab_tags1'><h5 style="margin-bottom: 4px;"><b>{{ form.home_cell.label_tag }}</b></h5></div>
+                    {% render_field form.home_cell class="form-control" %}
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div id="member_form_field">
+                    <div id='member_form_lab_tags1'><h5 style="margin-bottom: 4px;"><b>{{ form.department.label_tag }}</b></h5></div>
+                    {% render_field form.department class="form-control" %}
+                  </div>
+                </div>
+            </div>
+
+            <!-- Six -->
+            <div class="row">
+              <div class="col-md-6">
+                  <div id="member_form_field">
+                    <div id='member_form_lab_tags1'><h5 style="margin-bottom: 4px;"><b>{{ form.wing.label_tag }}</b></h5></div>
+                    {% render_field form.wing class="form-control" %}
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div id="member_form_field">
+                    <div id='member_form_lab_tags1'><h5 style="margin-bottom: 4px;"><b>{{ form.occupation.label_tag }}</b></h5></div>
+                    {% render_field form.occupation class="form-control" %}
+                  </div>
+                </div>
+            </div>
+
+            <!-- Seven -->
+            <div class="row">
+              <div class="col-md-6">
+                  <div id="member_form_field">
+                    <div id='member_form_lab_tags1'><h5 style="margin-bottom: 4px;"><b>{{ form.birthday.label_tag }}</b></h5></div>
+                    {% render_field form.birthday class="form-control" %}
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div id="member_form_field">
+                    <div id='member_form_lab_tags1'><h5 style="margin-bottom: 4px;"><b>{{ form.is_baptized.label_tag }}</b></h5></div>
+                    <p>{% render_field form.is_baptized class="form-control" %}</p>
+                  </div>
+                </div>
+            </div>
+
+            <!-- Eight -->
+            <div class="row">
+              <div class="col-md-6">
+                  <div id="member_form_field">
+                    <div id='member_form_lab_tags1'><h5 style="margin-bottom: 4px;"><b>{{ form.done_foundation.label_tag }}</b></h5></div>
+                    {% render_field form.done_foundation class="form-control" %}
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div id="member_form_field">
+                    <div id='member_form_lab_tags1'><h5 style="margin-bottom: 4px;"><b>{{ form.done_maturity.label_tag }}</b></h5></div>
+                    {% render_field form.done_maturity class="form-control" %}
+                  </div>
+                </div>
+            </div>      
+
+         
+
+
+              <p><input id='mybutt' type="submit" class="btn btn-primary" value="Submit"></p>
           </form>
+          
           
         <!-- </div>
       </div> -->

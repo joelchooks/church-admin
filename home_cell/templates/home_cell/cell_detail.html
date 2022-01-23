@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% extends 'church_app/church_app_base.html' %}
+
+{% block title %}
+| {{cell.cell_name}}
+{% endblock %}
+
+{% load static %}
+{% block  body_block %}
+
+    <div class="lyrics_detail_cont">
+
+
+         <!-- MODAL -->
+         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel"><b>Confrim Delete</b></h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      Are You Sure You Want To Delete?
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      
+                      <a class="btn btn-danger" href="{% url 'home_cell:cell_delete' cell.pk %}">Delete</a>
+                  </div>
+              </div>
+          </div>
+      </div> 
+
+
+
+        <div class="row">
+            <div class="col-md-9">
+                <h2 class="for-center" style="margin-bottom: 0px"><b>{{ cell.cell_name}}</b></h2> 
+                <p class="for-center" style="font-style: italic; margin-bottom: 0px; font-size: 18px; color: rgb(10, 10, 10);">Cell Leader: <a href="{{cell.cell_leader.get_absolute_url}}">{{cell.cell_leader}}</a></p>
+                <p class="for-center" style="font-style: italic; margin-bottom: 0px; margin-top: 0px; font-size: 18px; color: rgb(10, 10, 10);">Address: {{cell.cell_address}}</p>
+                <hr style="margin-top: 2px;">
+  
+              
+               {% for memb in cell.member_rel.all %}
+               <li style="font-size: x-large;"><a id='cell_members' href="{{cell.cell_leader.get_absolute_url}}">{{memb}}</a></li></a>
+               {% endfor %}
+
+                
+            </div>
+
+            <div class="col-md-3">
+                <div class="card" style="position: fixed; bottom: 0; margin-bottom: 3rem;">
+                    <div class="card-body">
+                        <div class='for-center' style="font-style: italic; font-size: 11px;">
+                            <p>Added on {{cell.date_added|date:"M. d, Y"}} at {{cell.date_added|date:"h:i A"}}</p>
+                            <p>Last Updated on {{cell.last_updated|date:"M. d, Y"}} at {{cell.last_updated|date:"h:i:s A"}}</p>
+                        </div>
+                        <hr>
+
+                       
+
+
+                        <div class="row for-center">
+                            <div class="col-6">
+                                <a style="width: 100px; height: 42px; font-size: 18.5px;" class='btn btn-primary' inline='True' href="{% url 'home_cell:cell_form_edit' cell.pk %}">Update</a>
+                            </div>
+                            <div class="col-6">
+                                 <!-- Button trigger modal -->
+                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: block; width: 100%; font-size: 18px;">
+                                  Delete
+                              </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    
+
+{% endblock %}
