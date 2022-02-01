@@ -63,7 +63,7 @@ class OrderMemberFilter(django_filters.FilterSet):
      
     class Meta:
         model = Member
-        fields = ['first_name', 'last_name', 'phone_number', 'department', 'phone_number', 'home_cell', 'wing', 'gender', 'is_member']
+        fields = ['first_name', 'last_name', 'phone_number', 'department', 'phone_number', 'home_cell', 'wing', 'gender', 'member_status']
 
         labels = {
             'gender': 'GENDER',
@@ -72,4 +72,5 @@ class OrderMemberFilter(django_filters.FilterSet):
             'phone_number': 'PHONE NUMBER',
             'home_cell':'HOME CELL',
             'wing':'WING',
+            'member_status': 'MEMBER STATUS'
             }

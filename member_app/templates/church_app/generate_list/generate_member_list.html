@@ -17,6 +17,7 @@
                 </div>
                 <hr>
                 <div class="row">
+                    <!-- For Date Joined -->
                     <div class="form-group col-sm-4 col-md-3">
                         {{ filter.form.date_joined.label_tag }} 
                         {% render_field filter.form.date_joined class="form-control" %}
@@ -26,6 +27,8 @@
                             {{ filter.form.date_joined__lt.label_tag }}
                             {% render_field filter.form.date_joined__lt id='datepicker' class="form-control" %}
                     </div>
+                    
+                    <!-- For Gender and Wing -->
                     <div class="form-group col-sm-4 col-md-3">
                         {{ filter.form.gender.label_tag }}
                         {% render_field filter.form.gender class="form-control" %}
@@ -33,12 +36,17 @@
                         <p>{{ filter.form.wing.label_tag }}
                             {% render_field filter.form.wing class="form-control" %}</p>
                     </div>
+
+                    <!-- For Department and Member Status -->
                     <div class="form-group col-sm-4 col-md-3">
                         {{ filter.form.department.label_tag }}
                         {% render_field filter.form.department class="form-control" %}
                         <hr>
-                    
+                        <p>{{ filter.form.member_status.label_tag }}
+                            {% render_field filter.form.member_status class="form-control" %}</p>
                     </div>
+
+                    <!-- For Birthday -->
                     <div class="form-group col-sm-4 col-md-3">
                         
                         {{ filter.form.birthday__gte.label_tag }}

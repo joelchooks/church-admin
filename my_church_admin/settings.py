@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = str(config('DEBUG')) == "1"
-DEBUG=True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = ['*']
 
@@ -38,6 +38,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,7 +55,16 @@ INSTALLED_APPS = [
     'bootstrap_datepicker_plus',
     'django_filters',
     'widget_tweaks',
+    'dbbackup',
+    
     # 'member_app_extras',
+]
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR,'backup/')}
+
+CRONJOBS = [
+    ('*/1 * * * *', 'my_church_admin.cron.my_scheduled_backup')
 ]
 
 
@@ -120,8 +130,8 @@ DATABASES = {
         'NAME': config('DB_NAME'),
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASS'),
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
     }
 }
 
@@ -173,8 +183,6 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root/')
-
-GOOGLE_API_KEY = config('GOOGLE_API_KEY')
 
 BASE_COUNTRY = "NG"
 

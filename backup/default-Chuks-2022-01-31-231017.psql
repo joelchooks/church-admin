@@ -1,0 +1,2037 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.1
+-- Dumped by pg_dump version 14.1
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+ALTER TABLE ONLY public.member_app_service DROP CONSTRAINT member_app_serviceco_service_id_f39b1345_fk_member_ap;
+ALTER TABLE ONLY public.member_app_member DROP CONSTRAINT member_app_member_home_cell_id_08e8fe5f_fk_member_ap;
+ALTER TABLE ONLY public.member_app_homecell DROP CONSTRAINT member_app_homecell_cell_leader_id_19e7d33a_fk_member_ap;
+ALTER TABLE ONLY public.home_cell_homecellmembers DROP CONSTRAINT home_cell_homecellme_cell_member_id_40703708_fk_member_ap;
+ALTER TABLE ONLY public.django_admin_log DROP CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id;
+ALTER TABLE ONLY public.django_admin_log DROP CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co;
+ALTER TABLE ONLY public.auth_user_user_permissions DROP CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id;
+ALTER TABLE ONLY public.auth_user_user_permissions DROP CONSTRAINT auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm;
+ALTER TABLE ONLY public.auth_user_groups DROP CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id;
+ALTER TABLE ONLY public.auth_user_groups DROP CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id;
+ALTER TABLE ONLY public.auth_permission DROP CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co;
+ALTER TABLE ONLY public.auth_group_permissions DROP CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id;
+ALTER TABLE ONLY public.auth_group_permissions DROP CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm;
+DROP INDEX public.member_app_servicecount_service_id_f39b1345;
+DROP INDEX public.member_app_member_phone_number_f9f556e0_like;
+DROP INDEX public.member_app_member_other_number_d3ccfb90_like;
+DROP INDEX public.member_app_member_home_cell_id_08e8fe5f;
+DROP INDEX public.member_app_member_email_7671a73c_like;
+DROP INDEX public.member_app_homecell_cell_leader_id_19e7d33a;
+DROP INDEX public.home_cell_homecellmembers_cell_member_id_40703708;
+DROP INDEX public.django_session_session_key_c0390e0f_like;
+DROP INDEX public.django_session_expire_date_a5c62663;
+DROP INDEX public.django_admin_log_user_id_c564eba6;
+DROP INDEX public.django_admin_log_content_type_id_c4bce8eb;
+DROP INDEX public.auth_user_username_6821ab7c_like;
+DROP INDEX public.auth_user_user_permissions_user_id_a95ead1b;
+DROP INDEX public.auth_user_user_permissions_permission_id_1fbb5f2c;
+DROP INDEX public.auth_user_groups_user_id_6a12ed8b;
+DROP INDEX public.auth_user_groups_group_id_97559544;
+DROP INDEX public.auth_permission_content_type_id_2f476e4b;
+DROP INDEX public.auth_group_permissions_permission_id_84c5c92e;
+DROP INDEX public.auth_group_permissions_group_id_b120cbf9;
+DROP INDEX public.auth_group_name_a6ea08ec_like;
+ALTER TABLE ONLY public.member_app_service DROP CONSTRAINT member_app_servicecount_pkey;
+ALTER TABLE ONLY public.member_app_message DROP CONSTRAINT member_app_message_pkey;
+ALTER TABLE ONLY public.member_app_memberattendance DROP CONSTRAINT member_app_memberattendance_pkey;
+ALTER TABLE ONLY public.member_app_member DROP CONSTRAINT member_app_member_pkey;
+ALTER TABLE ONLY public.member_app_member DROP CONSTRAINT member_app_member_phone_number_key;
+ALTER TABLE ONLY public.member_app_member DROP CONSTRAINT member_app_member_other_number_key;
+ALTER TABLE ONLY public.member_app_member DROP CONSTRAINT member_app_member_email_key;
+ALTER TABLE ONLY public.member_app_homecell DROP CONSTRAINT member_app_homecell_pkey;
+ALTER TABLE ONLY public.lyrics_app_lyrics DROP CONSTRAINT lyrics_app_lyrics_pkey;
+ALTER TABLE ONLY public.home_cell_homecellmembers DROP CONSTRAINT home_cell_homecellmembers_pkey;
+ALTER TABLE ONLY public.django_session DROP CONSTRAINT django_session_pkey;
+ALTER TABLE ONLY public.django_migrations DROP CONSTRAINT django_migrations_pkey;
+ALTER TABLE ONLY public.django_content_type DROP CONSTRAINT django_content_type_pkey;
+ALTER TABLE ONLY public.django_content_type DROP CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq;
+ALTER TABLE ONLY public.django_admin_log DROP CONSTRAINT django_admin_log_pkey;
+ALTER TABLE ONLY public.auth_user DROP CONSTRAINT auth_user_username_key;
+ALTER TABLE ONLY public.auth_user_user_permissions DROP CONSTRAINT auth_user_user_permissions_user_id_permission_id_14a6b632_uniq;
+ALTER TABLE ONLY public.auth_user_user_permissions DROP CONSTRAINT auth_user_user_permissions_pkey;
+ALTER TABLE ONLY public.auth_user DROP CONSTRAINT auth_user_pkey;
+ALTER TABLE ONLY public.auth_user_groups DROP CONSTRAINT auth_user_groups_user_id_group_id_94350c0c_uniq;
+ALTER TABLE ONLY public.auth_user_groups DROP CONSTRAINT auth_user_groups_pkey;
+ALTER TABLE ONLY public.auth_permission DROP CONSTRAINT auth_permission_pkey;
+ALTER TABLE ONLY public.auth_permission DROP CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq;
+ALTER TABLE ONLY public.auth_group DROP CONSTRAINT auth_group_pkey;
+ALTER TABLE ONLY public.auth_group_permissions DROP CONSTRAINT auth_group_permissions_pkey;
+ALTER TABLE ONLY public.auth_group_permissions DROP CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq;
+ALTER TABLE ONLY public.auth_group DROP CONSTRAINT auth_group_name_key;
+ALTER TABLE public.member_app_service ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.member_app_message ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.member_app_memberattendance ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.member_app_member ALTER COLUMN member_id DROP DEFAULT;
+ALTER TABLE public.member_app_homecell ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.lyrics_app_lyrics ALTER COLUMN lyrics_id DROP DEFAULT;
+ALTER TABLE public.home_cell_homecellmembers ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.django_migrations ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.django_content_type ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.django_admin_log ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.auth_user_user_permissions ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.auth_user_groups ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.auth_user ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.auth_permission ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.auth_group_permissions ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.auth_group ALTER COLUMN id DROP DEFAULT;
+DROP SEQUENCE public.member_app_servicecount_id_seq;
+DROP TABLE public.member_app_service;
+DROP SEQUENCE public.member_app_message_id_seq;
+DROP TABLE public.member_app_message;
+DROP SEQUENCE public.member_app_memberattendance_id_seq;
+DROP TABLE public.member_app_memberattendance;
+DROP SEQUENCE public.member_app_member_member_id_seq;
+DROP TABLE public.member_app_member;
+DROP SEQUENCE public.member_app_homecell_id_seq;
+DROP TABLE public.member_app_homecell;
+DROP SEQUENCE public.lyrics_app_lyrics_lyrics_id_seq;
+DROP TABLE public.lyrics_app_lyrics;
+DROP SEQUENCE public.home_cell_homecellmembers_id_seq;
+DROP TABLE public.home_cell_homecellmembers;
+DROP TABLE public.django_session;
+DROP SEQUENCE public.django_migrations_id_seq;
+DROP TABLE public.django_migrations;
+DROP SEQUENCE public.django_content_type_id_seq;
+DROP TABLE public.django_content_type;
+DROP SEQUENCE public.django_admin_log_id_seq;
+DROP TABLE public.django_admin_log;
+DROP SEQUENCE public.auth_user_user_permissions_id_seq;
+DROP TABLE public.auth_user_user_permissions;
+DROP SEQUENCE public.auth_user_id_seq;
+DROP SEQUENCE public.auth_user_groups_id_seq;
+DROP TABLE public.auth_user_groups;
+DROP TABLE public.auth_user;
+DROP SEQUENCE public.auth_permission_id_seq;
+DROP TABLE public.auth_permission;
+DROP SEQUENCE public.auth_group_permissions_id_seq;
+DROP TABLE public.auth_group_permissions;
+DROP SEQUENCE public.auth_group_id_seq;
+DROP TABLE public.auth_group;
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_group (
+    id integer NOT NULL,
+    name character varying(150) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_group_permissions (
+    id bigint NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_group_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
+
+
+--
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(150) NOT NULL,
+    first_name character varying(150) NOT NULL,
+    last_name character varying(150) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO postgres;
+
+--
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user_groups (
+    id bigint NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_groups_id_seq OWNED BY public.auth_user_groups.id;
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_id_seq OWNED BY public.auth_user.id;
+
+
+--
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user_user_permissions (
+    id bigint NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_user_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_user_permissions_id_seq OWNED BY public.auth_user_user_permissions.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_admin_log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_admin_log_id_seq OWNED BY public.django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_content_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_migrations (
+    id bigint NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO postgres;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_migrations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO postgres;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO postgres;
+
+--
+-- Name: home_cell_homecellmembers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.home_cell_homecellmembers (
+    id bigint NOT NULL,
+    address character varying(100),
+    town character varying(100),
+    county character varying(100),
+    post_code character varying(8),
+    country character varying(100),
+    longitude character varying(50),
+    latitude character varying(50),
+    has_cell boolean NOT NULL,
+    is_active boolean NOT NULL,
+    cell_member_id integer NOT NULL
+);
+
+
+ALTER TABLE public.home_cell_homecellmembers OWNER TO postgres;
+
+--
+-- Name: home_cell_homecellmembers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.home_cell_homecellmembers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.home_cell_homecellmembers_id_seq OWNER TO postgres;
+
+--
+-- Name: home_cell_homecellmembers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.home_cell_homecellmembers_id_seq OWNED BY public.home_cell_homecellmembers.id;
+
+
+--
+-- Name: lyrics_app_lyrics; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.lyrics_app_lyrics (
+    lyrics_id integer NOT NULL,
+    song_name character varying(50) NOT NULL,
+    song_lyrics text NOT NULL,
+    artist character varying(50) NOT NULL,
+    album character varying(50) NOT NULL,
+    year_recorded integer NOT NULL,
+    date_added timestamp with time zone NOT NULL,
+    category character varying(50) NOT NULL,
+    last_updated timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.lyrics_app_lyrics OWNER TO postgres;
+
+--
+-- Name: lyrics_app_lyrics_lyrics_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.lyrics_app_lyrics_lyrics_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.lyrics_app_lyrics_lyrics_id_seq OWNER TO postgres;
+
+--
+-- Name: lyrics_app_lyrics_lyrics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.lyrics_app_lyrics_lyrics_id_seq OWNED BY public.lyrics_app_lyrics.lyrics_id;
+
+
+--
+-- Name: member_app_homecell; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.member_app_homecell (
+    id bigint NOT NULL,
+    cell_name character varying(300) NOT NULL,
+    cell_address character varying(300) NOT NULL,
+    cell_leader_id integer NOT NULL,
+    date_added timestamp with time zone NOT NULL,
+    last_updated timestamp with time zone NOT NULL,
+    is_active boolean NOT NULL
+);
+
+
+ALTER TABLE public.member_app_homecell OWNER TO postgres;
+
+--
+-- Name: member_app_homecell_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.member_app_homecell_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.member_app_homecell_id_seq OWNER TO postgres;
+
+--
+-- Name: member_app_homecell_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.member_app_homecell_id_seq OWNED BY public.member_app_homecell.id;
+
+
+--
+-- Name: member_app_member; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.member_app_member (
+    member_id integer NOT NULL,
+    first_name character varying(25) NOT NULL,
+    middle_name character varying(25) NOT NULL,
+    last_name character varying(25) NOT NULL,
+    gender character varying(300) NOT NULL,
+    phone_number character varying(11) NOT NULL,
+    email character varying(254),
+    state_of_origin character varying(300) NOT NULL,
+    address character varying(300) NOT NULL,
+    date_joined timestamp with time zone NOT NULL,
+    last_updated timestamp with time zone NOT NULL,
+    department character varying(100) NOT NULL,
+    marital_status character varying(300) NOT NULL,
+    occupation character varying(100) NOT NULL,
+    wing character varying(25) NOT NULL,
+    birthday date,
+    home_cell_id bigint,
+    is_member boolean,
+    member_status character varying(25),
+    member_age integer,
+    other_number character varying(11),
+    done_foundation boolean,
+    done_maturity boolean,
+    is_baptized boolean,
+    CONSTRAINT member_app_member_member_age_check CHECK ((member_age >= 0))
+);
+
+
+ALTER TABLE public.member_app_member OWNER TO postgres;
+
+--
+-- Name: member_app_member_member_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.member_app_member_member_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.member_app_member_member_id_seq OWNER TO postgres;
+
+--
+-- Name: member_app_member_member_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.member_app_member_member_id_seq OWNED BY public.member_app_member.member_id;
+
+
+--
+-- Name: member_app_memberattendance; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.member_app_memberattendance (
+    id bigint NOT NULL,
+    date date NOT NULL,
+    "service_Type" character varying(70) NOT NULL,
+    overall_total bigint NOT NULL,
+    CONSTRAINT member_app_memberattendance_overall_total_check CHECK ((overall_total >= 0))
+);
+
+
+ALTER TABLE public.member_app_memberattendance OWNER TO postgres;
+
+--
+-- Name: member_app_memberattendance_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.member_app_memberattendance_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.member_app_memberattendance_id_seq OWNER TO postgres;
+
+--
+-- Name: member_app_memberattendance_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.member_app_memberattendance_id_seq OWNED BY public.member_app_memberattendance.id;
+
+
+--
+-- Name: member_app_message; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.member_app_message (
+    id bigint NOT NULL,
+    sender_name character varying(12) NOT NULL,
+    recipients text NOT NULL,
+    message_text text NOT NULL,
+    flash boolean NOT NULL,
+    created_date timestamp with time zone NOT NULL,
+    approved_message boolean NOT NULL,
+    sent_date timestamp with time zone
+);
+
+
+ALTER TABLE public.member_app_message OWNER TO postgres;
+
+--
+-- Name: member_app_message_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.member_app_message_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.member_app_message_id_seq OWNER TO postgres;
+
+--
+-- Name: member_app_message_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.member_app_message_id_seq OWNED BY public.member_app_message.id;
+
+
+--
+-- Name: member_app_service; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.member_app_service (
+    id bigint NOT NULL,
+    no_of_men integer NOT NULL,
+    no_of_women integer NOT NULL,
+    no_of_children integer NOT NULL,
+    no_of_new_comers integer NOT NULL,
+    no_of_new_converts integer NOT NULL,
+    total integer NOT NULL,
+    service_id bigint NOT NULL,
+    CONSTRAINT member_app_servicecount_no_of_children_check CHECK ((no_of_children >= 0)),
+    CONSTRAINT member_app_servicecount_no_of_men_check CHECK ((no_of_men >= 0)),
+    CONSTRAINT member_app_servicecount_no_of_new_comers_check CHECK ((no_of_new_comers >= 0)),
+    CONSTRAINT member_app_servicecount_no_of_new_converts_check CHECK ((no_of_new_converts >= 0)),
+    CONSTRAINT member_app_servicecount_no_of_women_check CHECK ((no_of_women >= 0)),
+    CONSTRAINT member_app_servicecount_total_check CHECK ((total >= 0))
+);
+
+
+ALTER TABLE public.member_app_service OWNER TO postgres;
+
+--
+-- Name: member_app_servicecount_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.member_app_servicecount_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.member_app_servicecount_id_seq OWNER TO postgres;
+
+--
+-- Name: member_app_servicecount_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.member_app_servicecount_id_seq OWNED BY public.member_app_service.id;
+
+
+--
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
+
+
+--
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: auth_user id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user ALTER COLUMN id SET DEFAULT nextval('public.auth_user_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_groups id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups ALTER COLUMN id SET DEFAULT nextval('public.auth_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log ALTER COLUMN id SET DEFAULT nextval('public.django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: django_migrations id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
+
+
+--
+-- Name: home_cell_homecellmembers id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.home_cell_homecellmembers ALTER COLUMN id SET DEFAULT nextval('public.home_cell_homecellmembers_id_seq'::regclass);
+
+
+--
+-- Name: lyrics_app_lyrics lyrics_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.lyrics_app_lyrics ALTER COLUMN lyrics_id SET DEFAULT nextval('public.lyrics_app_lyrics_lyrics_id_seq'::regclass);
+
+
+--
+-- Name: member_app_homecell id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.member_app_homecell ALTER COLUMN id SET DEFAULT nextval('public.member_app_homecell_id_seq'::regclass);
+
+
+--
+-- Name: member_app_member member_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.member_app_member ALTER COLUMN member_id SET DEFAULT nextval('public.member_app_member_member_id_seq'::regclass);
+
+
+--
+-- Name: member_app_memberattendance id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.member_app_memberattendance ALTER COLUMN id SET DEFAULT nextval('public.member_app_memberattendance_id_seq'::regclass);
+
+
+--
+-- Name: member_app_message id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.member_app_message ALTER COLUMN id SET DEFAULT nextval('public.member_app_message_id_seq'::regclass);
+
+
+--
+-- Name: member_app_service id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.member_app_service ALTER COLUMN id SET DEFAULT nextval('public.member_app_servicecount_id_seq'::regclass);
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_group (id, name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can view log entry	1	view_logentry
+5	Can add permission	2	add_permission
+6	Can change permission	2	change_permission
+7	Can delete permission	2	delete_permission
+8	Can view permission	2	view_permission
+9	Can add group	3	add_group
+10	Can change group	3	change_group
+11	Can delete group	3	delete_group
+12	Can view group	3	view_group
+13	Can add user	4	add_user
+14	Can change user	4	change_user
+15	Can delete user	4	delete_user
+16	Can view user	4	view_user
+17	Can add content type	5	add_contenttype
+18	Can change content type	5	change_contenttype
+19	Can delete content type	5	delete_contenttype
+20	Can view content type	5	view_contenttype
+21	Can add session	6	add_session
+22	Can change session	6	change_session
+23	Can delete session	6	delete_session
+24	Can view session	6	view_session
+25	Can add home cell	7	add_homecell
+26	Can change home cell	7	change_homecell
+27	Can delete home cell	7	delete_homecell
+28	Can view home cell	7	view_homecell
+29	Can add member	8	add_member
+30	Can change member	8	change_member
+31	Can delete member	8	delete_member
+32	Can view member	8	view_member
+33	Can add lyrics	9	add_lyrics
+34	Can change lyrics	9	change_lyrics
+35	Can delete lyrics	9	delete_lyrics
+36	Can view lyrics	9	view_lyrics
+37	Can add home cell members	10	add_homecellmembers
+38	Can change home cell members	10	change_homecellmembers
+39	Can delete home cell members	10	delete_homecellmembers
+40	Can view home cell members	10	view_homecellmembers
+41	Can add member attendance	11	add_memberattendance
+42	Can change member attendance	11	change_memberattendance
+43	Can delete member attendance	11	delete_memberattendance
+44	Can view member attendance	11	view_memberattendance
+45	Can add service count	12	add_servicecount
+46	Can change service count	12	change_servicecount
+47	Can delete service count	12	delete_servicecount
+48	Can view service count	12	view_servicecount
+49	Can add service	12	add_service
+50	Can change service	12	change_service
+51	Can delete service	12	delete_service
+52	Can view service	12	view_service
+53	Can add message	13	add_message
+54	Can change message	13	change_message
+55	Can delete message	13	delete_message
+56	Can view message	13	view_message
+\.
+
+
+--
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+1	pbkdf2_sha256$260000$CxjKcDXYhquoqyz4rxiXVb$dJ7yd5aRH2lUDUofgQL1sZR5BuUjtG0fLYcU+Azp9UQ=	2022-01-31 20:07:28.646572+01	t	chuks			joelchukks@gmail.com	t	t	2021-12-30 11:17:12.7036+01
+\.
+
+
+--
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2021-12-30 11:29:09.223997+01	3	Praise Cell	1	[{"added": {}}]	7	1
+2	2021-12-30 11:29:33.499492+01	2	Chukwuemeka Joel Nwaoma	1	[{"added": {}}]	8	1
+3	2022-01-02 07:53:06.872538+01	3	Daniel  Chiazam	1	[{"added": {}}]	8	1
+4	2022-01-02 08:23:17.048806+01	2	self.date	1	[{"added": {}}]	11	1
+5	2022-01-02 08:45:43.122977+01	2	2022-01-02	2	[{"changed": {"fields": ["No of women", "No of new comers"]}}]	11	1
+6	2022-01-02 19:37:42.426999+01	3	First Service	1	[{"added": {}}, {"added": {"name": "service count", "object": "ServiceCount object (1)"}}]	11	1
+7	2022-01-02 19:41:29.931802+01	3	Sunday Service	2	[{"added": {"name": "service", "object": "Service object (2)"}}]	11	1
+8	2022-01-02 20:08:22.045788+01	5	Sunday Service	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (3)"}}]	11	1
+9	2022-01-02 20:08:37.689832+01	5	Sunday Service	2	[{"added": {"name": "service", "object": "Service object (4)"}}]	11	1
+10	2022-01-02 20:11:38.585896+01	5	Sunday Service	2	[]	11	1
+11	2022-01-02 20:11:47.560618+01	5	Sunday Service	2	[{"added": {"name": "service", "object": "Service object (5)"}}]	11	1
+12	2022-01-02 21:45:06.478503+01	5	Sunday Service	2	[]	11	1
+13	2022-01-02 21:45:23.294955+01	5	Sunday Service	2	[{"deleted": {"name": "service", "object": "Service object (None)"}}, {"deleted": {"name": "service", "object": "Service object (None)"}}, {"deleted": {"name": "service", "object": "Service object (None)"}}]	11	1
+14	2022-01-02 21:45:33.976494+01	5	Sunday Service	2	[{"added": {"name": "service", "object": "Service object (6)"}}]	11	1
+15	2022-01-02 21:46:48.091317+01	5	Sunday Service	2	[]	11	1
+16	2022-01-02 21:47:47.758955+01	6	Tueday Healing & Deliverance	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (7)"}}]	11	1
+17	2022-01-02 21:50:51.075832+01	7	Wednesday Mid-Week Service	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (8)"}}]	11	1
+18	2022-01-02 21:52:26.18246+01	7	Wednesday Mid-Week Service	2	[]	11	1
+19	2022-01-02 21:52:41.250482+01	7	Wednesday Mid-Week Service	2	[]	11	1
+20	2022-01-02 21:52:59.979255+01	7	Wednesday Mid-Week Service	2	[{"added": {"name": "service", "object": "Service object (9)"}}]	11	1
+21	2022-01-02 21:53:29.002873+01	7	Wednesday Mid-Week Service	2	[]	11	1
+22	2022-01-02 21:53:42.017388+01	7	Wednesday Mid-Week Service	2	[]	11	1
+23	2022-01-02 21:53:54.456296+01	8	Sunday Service	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (10)"}}]	11	1
+24	2022-01-02 21:54:04.281791+01	8	Sunday Service	2	[]	11	1
+25	2022-01-02 21:54:19.945034+01	8	Sunday Service	2	[{"added": {"name": "service", "object": "Service object (11)"}}]	11	1
+26	2022-01-02 21:54:24.367924+01	8	Sunday Service	2	[]	11	1
+27	2022-01-02 21:59:01.294741+01	9	Friday Worship & Wonders Night	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (12)"}}, {"added": {"name": "service", "object": "Service object (13)"}}]	11	1
+28	2022-01-02 21:59:05.332145+01	9	Friday Worship & Wonders Night	2	[]	11	1
+29	2022-01-02 21:59:09.393576+01	9	Friday Worship & Wonders Night	2	[]	11	1
+30	2022-01-02 22:00:08.094038+01	9	Friday Worship & Wonders Night	2	[]	11	1
+31	2022-01-02 22:00:12.24737+01	9	Friday Worship & Wonders Night	2	[]	11	1
+32	2022-01-02 22:00:36.110474+01	10	Sunday Service	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (14)"}}]	11	1
+33	2022-01-02 22:00:53.215637+01	10	Sunday Service	2	[]	11	1
+34	2022-01-02 22:05:32.610591+01	10	Sunday Service	2	[]	11	1
+35	2022-01-02 22:05:36.165791+01	10	Sunday Service	2	[]	11	1
+36	2022-01-02 22:05:46.018613+01	10	Sunday Service	2	[{"added": {"name": "service", "object": "Service object (15)"}}]	11	1
+37	2022-01-02 22:05:50.010056+01	10	Sunday Service	2	[]	11	1
+38	2022-01-02 22:06:03.442258+01	10	Sunday Service	2	[]	11	1
+39	2022-01-02 22:07:39.663918+01	11	Others	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (16)"}}]	11	1
+40	2022-01-02 22:07:52.587251+01	11	Others	2	[]	11	1
+41	2022-01-02 22:09:21.069873+01	10	Sunday Service	2	[]	11	1
+42	2022-01-02 22:09:26.749219+01	10	Sunday Service	2	[]	11	1
+43	2022-01-02 22:09:30.275847+01	10	Sunday Service	2	[]	11	1
+44	2022-01-02 22:09:34.340098+01	9	Friday Worship & Wonders Night	2	[]	11	1
+45	2022-01-02 22:11:15.282198+01	9	Friday Worship & Wonders Night	2	[]	11	1
+46	2022-01-02 22:11:19.582148+01	10	Sunday Service	2	[]	11	1
+47	2022-01-02 22:11:23.268657+01	10	Sunday Service	2	[]	11	1
+48	2022-01-02 22:11:39.468795+01	11	Others	3		11	1
+49	2022-01-02 22:11:39.474106+01	10	Sunday Service	3		11	1
+50	2022-01-02 22:11:39.475103+01	9	Friday Worship & Wonders Night	3		11	1
+51	2022-01-02 22:11:39.476101+01	8	Sunday Service	3		11	1
+52	2022-01-02 22:11:39.477098+01	7	Wednesday Mid-Week Service	3		11	1
+53	2022-01-02 22:11:39.478096+01	6	Tueday Healing & Deliverance	3		11	1
+54	2022-01-02 22:11:39.479093+01	5	Sunday Service	3		11	1
+55	2022-01-02 22:11:39.48009+01	3	Sunday Service	3		11	1
+56	2022-01-02 22:11:39.481087+01	2	Sunday Service	3		11	1
+57	2022-01-02 22:12:05.807698+01	12	Sunday Service	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (17)"}}]	11	1
+58	2022-01-02 22:12:09.014432+01	12	Sunday Service	2	[]	11	1
+59	2022-01-02 22:12:16.641328+01	12	Sunday Service	2	[{"added": {"name": "service", "object": "Service object (18)"}}]	11	1
+60	2022-01-02 22:12:24.016793+01	12	Sunday Service	2	[]	11	1
+61	2022-01-02 22:12:28.562012+01	12	Sunday Service	2	[]	11	1
+62	2022-01-02 22:12:43.704824+01	12	Sunday Service	3		11	1
+63	2022-01-02 22:12:55.006918+01	13	Sunday Service	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (19)"}}]	11	1
+64	2022-01-02 22:13:00.81366+01	13	Sunday Service	2	[]	11	1
+65	2022-01-02 22:13:07.071849+01	13	Sunday Service	2	[{"added": {"name": "service", "object": "Service object (20)"}}]	11	1
+66	2022-01-02 22:13:10.209691+01	13	Sunday Service	2	[]	11	1
+67	2022-01-02 22:13:14.860963+01	13	Sunday Service	2	[]	11	1
+68	2022-01-02 22:13:17.906042+01	13	Sunday Service	2	[]	11	1
+69	2022-01-02 22:13:21.297322+01	13	Sunday Service	2	[]	11	1
+70	2022-01-02 22:13:25.233273+01	13	Sunday Service	2	[]	11	1
+71	2022-01-02 22:13:38.531835+01	14	Tueday Healing & Deliverance	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (21)"}}]	11	1
+72	2022-01-02 22:13:58.352889+01	14	Tueday Healing & Deliverance	2	[{"added": {"name": "service", "object": "Service object (22)"}}]	11	1
+73	2022-01-02 22:14:06.700431+01	14	Tueday Healing & Deliverance	2	[]	11	1
+74	2022-01-02 22:14:13.411652+01	14	Tueday Healing & Deliverance	2	[]	11	1
+75	2022-01-02 22:14:17.212947+01	14	Tueday Healing & Deliverance	2	[]	11	1
+76	2022-01-02 22:20:56.33912+01	17	Wednesday Mid-Week Service	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (24)"}}]	11	1
+77	2022-01-02 22:21:00.628086+01	17	Wednesday Mid-Week Service	2	[]	11	1
+78	2022-01-02 22:21:04.095284+01	17	Wednesday Mid-Week Service	2	[]	11	1
+79	2022-01-02 22:21:44.331292+01	17	Wednesday Mid-Week Service	2	[]	11	1
+80	2022-01-02 22:22:14.907252+01	18	Others	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (25)"}}]	11	1
+81	2022-01-02 22:24:14.519584+01	18	Others	2	[]	11	1
+82	2022-01-02 22:24:19.7585+01	18	Others	2	[]	11	1
+83	2022-01-03 12:46:37.731687+01	21	Sunday Service	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (28)"}}]	11	1
+84	2022-01-04 10:52:56.96477+01	22	Wednesday Mid-Week Service	3		11	1
+85	2022-01-04 10:52:56.982318+01	21	Sunday Service	3		11	1
+86	2022-01-04 10:52:56.98381+01	18	Others	3		11	1
+87	2022-01-04 10:52:56.985076+01	17	Wednesday Mid-Week Service	3		11	1
+88	2022-01-04 10:52:56.986287+01	14	Tueday Healing & Deliverance	3		11	1
+89	2022-01-04 10:52:56.987288+01	13	Sunday Service	3		11	1
+90	2022-01-04 10:54:38.415739+01	23	Tueday Healing & Deliverance	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (29)"}}]	11	1
+91	2022-01-04 16:00:57.966584+01	23	Tueday Healing & Deliverance	3		11	1
+92	2022-01-04 21:21:19.960288+01	43	Sunday Service	2	[{"added": {"name": "service", "object": "Service object (30)"}}]	11	1
+93	2022-01-04 21:21:33.501504+01	43	Sunday Service	2	[]	11	1
+94	2022-01-04 21:35:59.001804+01	24	Sunday Service	2	[{"added": {"name": "service", "object": "Service object (31)"}}]	11	1
+95	2022-01-04 21:37:48.075376+01	43	Sunday Service	2	[]	11	1
+96	2022-01-04 21:39:29.556823+01	24	Friday Worship & Wonders Night	2	[{"changed": {"fields": ["Service Type"]}}]	11	1
+97	2022-01-04 21:39:55.732519+01	43	Sunday Service	2	[{"added": {"name": "service", "object": "Service object (32)"}}]	11	1
+98	2022-01-04 21:41:38.021567+01	43	Sunday Service	3		11	1
+99	2022-01-04 21:41:38.027676+01	42	Sunday Service	3		11	1
+100	2022-01-04 21:41:38.029017+01	41	Wednesday Mid-Week Service	3		11	1
+101	2022-01-04 21:41:38.030228+01	40	Wednesday Mid-Week Service	3		11	1
+102	2022-01-04 21:41:38.031424+01	39	Sunday Service	3		11	1
+103	2022-01-04 21:41:38.033755+01	38	Sunday Service	3		11	1
+104	2022-01-04 21:41:38.035483+01	37	Sunday Service	3		11	1
+105	2022-01-04 21:41:38.036495+01	36	Sunday Service	3		11	1
+106	2022-01-04 21:41:38.037539+01	35	Sunday Service	3		11	1
+107	2022-01-04 21:41:55.304672+01	34	Sunday Service	3		11	1
+108	2022-01-04 21:41:55.310305+01	33	Sunday Service	3		11	1
+109	2022-01-04 21:41:55.311325+01	32	Sunday Service	3		11	1
+110	2022-01-04 21:42:17.244979+01	31	Sunday Service	3		11	1
+111	2022-01-04 21:42:17.250525+01	30	Sunday Service	3		11	1
+112	2022-01-04 21:42:17.252528+01	28	Sunday Service	3		11	1
+113	2022-01-04 21:42:46.308667+01	29	Wednesday Mid-Week Service	2	[{"added": {"name": "service", "object": "Service object (33)"}}]	11	1
+114	2022-01-04 22:12:39.426462+01	29	Wednesday Mid-Week Service	2	[{"added": {"name": "service", "object": "Service object (34)"}}]	11	1
+115	2022-01-04 22:30:18.111837+01	29	Wednesday Mid-Week Service	2	[{"added": {"name": "service", "object": "Service object (35)"}}]	11	1
+116	2022-01-04 22:34:56.301514+01	29	Wednesday Mid-Week Service	2	[]	11	1
+117	2022-01-04 23:32:29.05211+01	46	Friday Worship & Wonders Night	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (36)"}}, {"added": {"name": "service", "object": "Service object (37)"}}]	11	1
+118	2022-01-04 23:33:53.245328+01	24	Friday Worship & Wonders Night	2	[{"added": {"name": "service", "object": "Service object (38)"}}]	11	1
+119	2022-01-04 23:35:21.985965+01	24	Friday Worship & Wonders Night	2	[{"added": {"name": "service", "object": "Service object (39)"}}]	11	1
+120	2022-01-04 23:35:34.041226+01	24	Friday Worship & Wonders Night	2	[{"changed": {"name": "service", "object": "Service object (39)", "fields": ["No of children"]}}]	11	1
+121	2022-01-04 23:35:48.74605+01	24	Friday Worship & Wonders Night	2	[{"added": {"name": "service", "object": "Service object (40)"}}]	11	1
+122	2022-01-04 23:36:13.335138+01	24	Friday Worship & Wonders Night	2	[{"changed": {"name": "service", "object": "Service object (39)", "fields": ["No of men"]}}]	11	1
+123	2022-01-04 23:36:55.415269+01	47	Tueday Healing & Deliverance	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (41)"}}]	11	1
+124	2022-01-04 23:37:25.617577+01	47	Tueday Healing & Deliverance	2	[{"changed": {"name": "service", "object": "Service object (41)", "fields": ["No of women"]}}]	11	1
+125	2022-01-04 23:39:08.142788+01	47	Tueday Healing & Deliverance	3		11	1
+126	2022-01-04 23:39:08.15189+01	46	Friday Worship & Wonders Night	3		11	1
+127	2022-01-04 23:39:08.152876+01	45	Wednesday Mid-Week Service	3		11	1
+128	2022-01-04 23:39:08.155866+01	44	Others	3		11	1
+129	2022-01-04 23:39:08.156865+01	26	Others	3		11	1
+130	2022-01-04 23:39:08.158372+01	25	Sunday Service	3		11	1
+131	2022-01-04 23:39:08.160079+01	24	Friday Worship & Wonders Night	3		11	1
+132	2022-01-04 23:39:17.082627+01	48	Tueday Healing & Deliverance	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (42)"}}]	11	1
+133	2022-01-04 23:39:28.029182+01	48	Tueday Healing & Deliverance	2	[{"changed": {"name": "service", "object": "Service object (42)", "fields": ["No of children"]}}]	11	1
+134	2022-01-04 23:41:33.383984+01	49	Friday Worship & Wonders Night	1	[{"added": {}}, {"added": {"name": "service", "object": "Service object (43)"}}]	11	1
+135	2022-01-05 12:56:14.850892+01	49	Friday Worship & Wonders Night	2	[{"changed": {"fields": ["Overall total"]}}]	11	1
+136	2022-01-05 12:56:20.797121+01	48	Tueday Healing & Deliverance	2	[{"changed": {"fields": ["Overall total"]}}]	11	1
+137	2022-01-05 12:56:43.674079+01	29	Wednesday Mid-Week Service	2	[{"changed": {"fields": ["Overall total"]}}]	11	1
+138	2022-01-05 12:56:48.780012+01	27	Sunday Service	2	[{"changed": {"fields": ["Overall total"]}}]	11	1
+139	2022-01-05 13:32:23.418564+01	29	Wednesday Mid-Week Service	2	[{"added": {"name": "service", "object": "55"}}]	11	1
+140	2022-01-05 13:43:31.913142+01	29	Wednesday Mid-Week Service	2	[{"changed": {"name": "service", "object": "380", "fields": ["No of men"]}}]	11	1
+141	2022-01-11 16:06:35.860285+01	4	Chukwuemeka Joel Nwaoma	1	[{"added": {}}]	8	1
+142	2022-01-11 16:06:42.679675+01	4	Praise Cell	1	[{"added": {}}]	7	1
+143	2022-01-11 16:07:35.849685+01	5	Chukwuemeka Joel Nwaoma	1	[{"added": {}}]	8	1
+144	2022-01-11 16:16:09.759298+01	6	Chukwuemeka Technology Nwaoma	1	[{"added": {}}]	8	1
+145	2022-01-11 16:16:25.481499+01	7	Chukwuemeka Joel Nwaoma	1	[{"added": {}}]	8	1
+146	2022-01-11 16:17:01.928001+01	8	Chukwuemeka Joel Nwaoma	1	[{"added": {}}]	8	1
+147	2022-01-11 16:18:35.73539+01	9	Chukwuemeka  Nwaoma	1	[{"added": {}}]	8	1
+148	2022-01-11 16:18:45.12143+01	10	Chukwuemeka  Nwaoma	1	[{"added": {}}]	8	1
+149	2022-01-11 16:19:27.642089+01	11	Chukwuemeka Joel Nwaoma	1	[{"added": {}}]	8	1
+150	2022-01-11 16:22:02.831382+01	12	Chukwuemeka  Nwaoma	1	[{"added": {}}]	8	1
+151	2022-01-11 16:22:13.645421+01	13	Chukwuemeka  Nwaoma	1	[{"added": {}}]	8	1
+152	2022-01-11 23:11:01.209099+01	14	okoro  solo	1	[{"added": {}}]	8	1
+153	2022-01-12 21:24:30.108026+01	15	Chukwuemeka  Nwaoma	1	[{"added": {}}]	8	1
+154	2022-01-12 21:24:51.879078+01	16	Federal University of Technology Owerri	1	[{"added": {}}]	8	1
+155	2022-01-12 21:25:01.867952+01	17	Chukwuemeka  Nwaoma	1	[{"added": {}}]	8	1
+156	2022-01-12 21:27:53.973423+01	18	Chukwuemeka  Nwaoma	1	[{"added": {}}]	8	1
+157	2022-01-12 21:28:03.366983+01	19	Chukwuemeka  Nwaoma	1	[{"added": {}}]	8	1
+158	2022-01-12 21:28:15.019427+01	20	Chukwuemeka Joel Nwaoma	1	[{"added": {}}]	8	1
+159	2022-01-12 21:28:22.14404+01	21	Chukwuemeka  Nwaoma	1	[{"added": {}}]	8	1
+160	2022-01-12 21:28:33.904054+01	22	Chukwuemeka Joel Nwaoma	1	[{"added": {}}]	8	1
+161	2022-01-12 21:46:07.958737+01	23	Chukwuemeka Joel Nwaoma	1	[{"added": {}}]	8	1
+162	2022-01-14 14:18:26.304277+01	24	hello  gee	1	[{"added": {}}]	8	1
+163	2022-01-14 16:19:32.69951+01	25	kings Joel sddd	1	[{"added": {}}]	8	1
+164	2022-01-14 16:29:00.795636+01	13	Chukwuemeka  Nwaoma	2	[{"changed": {"fields": ["Is member"]}}]	8	1
+165	2022-01-14 17:34:11.475597+01	12	Chukwuemeka  Nwaoma	2	[{"changed": {"fields": ["Date joined"]}}]	8	1
+166	2022-01-14 22:37:33.228107+01	12	Chukwuemeka  Nwaoma	2	[{"changed": {"fields": ["Birthday", "Is member"]}}]	8	1
+167	2022-01-15 23:44:43.907987+01	7	2022-01-15 22:27:54+00:00	2	[{"changed": {"fields": ["Sent date"]}}]	13	1
+168	2022-01-19 18:48:17.66581+01	12	Chukwuemeka  Nwaoma	2	[{"changed": {"fields": ["Member age"]}}]	8	1
+169	2022-01-19 18:50:59.425081+01	14	okoro  solo	2	[{"changed": {"fields": ["Birthday"]}}]	8	1
+170	2022-01-19 19:01:25.365759+01	12	Chukwuemeka  Nwaoma	2	[{"changed": {"fields": ["Birthday"]}}]	8	1
+171	2022-01-19 19:02:32.498628+01	12	Chukwuemeka  Nwaoma	2	[{"changed": {"fields": ["Birthday"]}}]	8	1
+172	2022-01-19 19:04:36.05263+01	12	Chukwuemeka  Nwaoma	2	[{"changed": {"fields": ["Birthday"]}}]	8	1
+173	2022-01-19 19:04:54.423388+01	12	Chukwuemeka  Nwaoma	2	[{"changed": {"fields": ["Birthday"]}}]	8	1
+174	2022-01-19 19:15:41.992818+01	None	ff Joel ffdsd	1	[{"added": {}}]	8	1
+175	2022-01-19 19:16:25.550739+01	None	fffff asa ascsa	1	[{"added": {}}]	8	1
+176	2022-01-19 19:17:01.94559+01	25	kings Joel sddd	2	[{"changed": {"fields": ["Member age"]}}]	8	1
+177	2022-01-19 19:17:07.790516+01	24	hello  gee	2	[{"changed": {"fields": ["Member age"]}}]	8	1
+178	2022-01-19 19:17:14.674349+01	24	hello  gee	2	[{"changed": {"fields": ["Member age"]}}]	8	1
+179	2022-01-19 19:19:02.062004+01	None	ewee eee wewee	1	[{"added": {}}]	8	1
+180	2022-01-19 19:19:53.030572+01	26	wwsas dsd Nwaoma	1	[{"added": {}}]	8	1
+181	2022-01-19 19:27:10.321164+01	12	Chukwuemeka  Nwaoma	2	[]	8	1
+182	2022-01-19 19:42:35.107606+01	27	sss sas ddd	1	[{"added": {}}]	8	1
+183	2022-01-19 19:42:53.735178+01	27	sss sas ddd	2	[]	8	1
+184	2022-01-19 19:43:33.98829+01	28	44josephon  ddd	1	[{"added": {}}]	8	1
+185	2022-01-19 19:55:04.57068+01	12	Chukwuemeka  Nwaoma	2	[]	8	1
+186	2022-01-19 19:56:09.485927+01	12	Chukwuemeka  Nwaoma	2	[]	8	1
+187	2022-01-19 19:56:58.524913+01	12	Chukwuemeka  Nwaoma	2	[]	8	1
+188	2022-01-19 19:57:27.288012+01	12	Chukwuemeka  Nwaoma	2	[]	8	1
+189	2022-01-19 20:50:31.985723+01	12	Chukwuemeka  Nwaoma	2	[]	8	1
+190	2022-01-19 20:53:50.951039+01	12	Chukwuemeka  Nwaoma	2	[{"changed": {"fields": ["Other number"]}}]	8	1
+191	2022-01-20 09:01:55.353198+01	14	Okoro  Solo	2	[]	8	1
+192	2022-01-20 09:02:31.408896+01	14	Okoro  Solo	2	[{"changed": {"fields": ["Gender"]}}]	8	1
+193	2022-01-20 09:02:44.559325+01	14	Okoro  Solo	2	[{"changed": {"fields": ["Gender"]}}]	8	1
+194	2022-01-20 10:05:20.953709+01	12	Chukwuemeka  Nwaoma	2	[{"changed": {"fields": ["Home cell"]}}]	8	1
+195	2022-01-20 10:05:27.924541+01	14	Okoro  Solo	2	[{"changed": {"fields": ["Home cell"]}}]	8	1
+196	2022-01-20 10:07:08.206699+01	5	Glory Cell	1	[{"added": {}}]	7	1
+197	2022-01-20 10:08:07.760294+01	14	Okoro  Solo	2	[{"changed": {"fields": ["Home cell"]}}]	8	1
+198	2022-01-20 10:16:51.444665+01	12	Chukwuemeka  Nwaoma	2	[{"changed": {"fields": ["Home cell"]}}]	8	1
+199	2022-01-20 10:17:32.492373+01	5	Glory Cell	2	[]	7	1
+200	2022-01-20 10:18:39.382196+01	24	Hello  Gee	2	[{"changed": {"fields": ["Home cell", "Birthday"]}}]	8	1
+201	2022-01-20 10:23:02.568046+01	28	44Josephon  Ddd	2	[{"changed": {"fields": ["Birthday"]}}]	8	1
+202	2022-01-20 10:23:12.429056+01	28	44Josephon  Ddd	2	[]	8	1
+203	2022-01-20 10:39:07.997888+01	28	44Josephon  Ddd	2	[{"changed": {"fields": ["Home cell"]}}]	8	1
+204	2022-01-20 11:48:43.653417+01	28	44Josephon  Ddd	2	[{"changed": {"fields": ["Birthday"]}}]	8	1
+205	2022-01-20 11:49:02.176575+01	28	44Josephon  Ddd	2	[{"changed": {"fields": ["Birthday"]}}]	8	1
+206	2022-01-20 22:08:29.296234+01	12	Chukwuemeka  Nwaoma	2	[{"changed": {"fields": ["Phone number"]}}]	8	1
+207	2022-01-20 22:08:59.647536+01	12	Chukwuemeka  Nwaoma	2	[]	8	1
+208	2022-01-21 11:07:46.463421+01	33	Were Joel Weee	1	[{"added": {}}]	8	1
+209	2022-01-21 11:21:47.256742+01	36	Chukwuemeka Joel Nwaoma	3		8	1
+210	2022-01-21 11:21:47.270295+01	35	Chukwuemeka Joel Nwaoma	3		8	1
+211	2022-01-21 11:21:47.271685+01	34	Chukwuemeka Joel Nwaoma	3		8	1
+212	2022-01-21 11:21:47.272899+01	31	Chukwuemeka Joel Nwaoma	3		8	1
+213	2022-01-21 11:21:47.273899+01	30	Chukwuemeka Joel Nwaoma	3		8	1
+214	2022-01-21 11:21:47.276012+01	29	Chukwuemeka Joel Nwaoma	3		8	1
+215	2022-01-21 11:21:47.277354+01	26	wwsas dsd Nwaoma	3		8	1
+216	2022-01-21 11:21:47.279356+01	23	Chukwuemeka Joel Nwaoma	3		8	1
+217	2022-01-21 11:21:47.280371+01	22	Chukwuemeka Joel Nwaoma	3		8	1
+218	2022-01-21 11:21:47.282254+01	21	Chukwuemeka  Nwaoma	3		8	1
+219	2022-01-21 11:21:47.283983+01	20	Chukwuemeka Joel Nwaoma	3		8	1
+220	2022-01-21 11:21:47.286582+01	19	Chukwuemeka  Nwaoma	3		8	1
+221	2022-01-21 11:21:47.287835+01	18	Chukwuemeka  Nwaoma	3		8	1
+222	2022-01-21 11:21:47.288972+01	17	Chukwuemeka  Nwaoma	3		8	1
+223	2022-01-21 11:21:47.289978+01	15	Chukwuemeka  Nwaoma	3		8	1
+224	2022-01-21 11:21:47.291569+01	13	Chukwuemeka  Nwaoma	3		8	1
+225	2022-01-21 11:21:47.293138+01	11	Chukwuemeka Joel Nwaoma	3		8	1
+226	2022-01-21 11:22:13.103552+01	37	Chukwuemeka Joel Nwaoma	3		8	1
+227	2022-01-21 11:22:13.11053+01	27	sss sas ddd	3		8	1
+228	2022-01-21 11:22:13.112525+01	16	Federal University of Technology Owerri	3		8	1
+229	2022-01-21 11:22:13.113523+01	10	Chukwuemeka  Nwaoma	3		8	1
+230	2022-01-21 11:22:13.116514+01	9	Chukwuemeka  Nwaoma	3		8	1
+231	2022-01-21 11:22:13.118509+01	8	Chukwuemeka Joel Nwaoma	3		8	1
+232	2022-01-21 11:22:13.120505+01	7	Chukwuemeka Joel Nwaoma	3		8	1
+233	2022-01-21 11:22:13.123495+01	5	Chukwuemeka Joel Nwaoma	3		8	1
+234	2022-01-21 11:22:13.124493+01	4	Chukwuemeka Joel Nwaoma	3		8	1
+235	2022-01-21 11:22:13.126487+01	12	Chukwuemeka  Nwaoma	3		8	1
+236	2022-01-21 21:55:42.755328+01	102	Chukwuemeka Joel Nwaoma	2	[{"changed": {"fields": ["Home cell"]}}]	8	1
+\.
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	permission
+3	auth	group
+4	auth	user
+5	contenttypes	contenttype
+6	sessions	session
+7	member_app	homecell
+8	member_app	member
+9	lyrics_app	lyrics
+10	home_cell	homecellmembers
+11	member_app	memberattendance
+12	member_app	service
+13	member_app	message
+\.
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2021-12-30 11:16:48.545204+01
+2	auth	0001_initial	2021-12-30 11:16:48.750095+01
+3	admin	0001_initial	2021-12-30 11:16:48.810063+01
+4	admin	0002_logentry_remove_auto_add	2021-12-30 11:16:48.825056+01
+5	admin	0003_logentry_add_action_flag_choices	2021-12-30 11:16:48.850042+01
+6	contenttypes	0002_remove_content_type_name	2021-12-30 11:16:48.905015+01
+7	auth	0002_alter_permission_name_max_length	2021-12-30 11:16:48.93+01
+8	auth	0003_alter_user_email_max_length	2021-12-30 11:16:48.949988+01
+9	auth	0004_alter_user_username_opts	2021-12-30 11:16:48.979972+01
+10	auth	0005_alter_user_last_login_null	2021-12-30 11:16:49.004959+01
+11	auth	0006_require_contenttypes_0002	2021-12-30 11:16:49.009968+01
+12	auth	0007_alter_validators_add_error_messages	2021-12-30 11:16:49.039941+01
+13	auth	0008_alter_user_username_max_length	2021-12-30 11:16:49.079919+01
+14	auth	0009_alter_user_last_name_max_length	2021-12-30 11:16:49.104905+01
+15	auth	0010_alter_group_name_max_length	2021-12-30 11:16:49.13489+01
+16	auth	0011_update_proxy_permissions	2021-12-30 11:16:49.159877+01
+17	auth	0012_alter_user_first_name_max_length	2021-12-30 11:16:49.184877+01
+18	member_app	0001_initial	2021-12-30 11:16:49.28481+01
+19	member_app	0002_alter_member_home_cell	2021-12-30 11:16:49.294805+01
+20	home_cell	0001_initial	2021-12-30 11:16:49.339781+01
+21	lyrics_app	0001_initial	2021-12-30 11:16:49.364768+01
+22	sessions	0001_initial	2021-12-30 11:16:49.394752+01
+23	member_app	0003_alter_homecell_cell_leader	2021-12-30 11:20:08.594934+01
+24	member_app	0004_auto_20211230_1128	2021-12-30 11:28:51.122729+01
+25	member_app	0005_memberattendance	2022-01-02 07:37:21.007931+01
+26	member_app	0005_auto_20220102_0819	2022-01-02 08:20:01.993709+01
+27	member_app	0006_auto_20220102_1117	2022-01-02 11:17:38.475328+01
+28	member_app	0007_alter_memberattendance_service	2022-01-02 11:19:14.182486+01
+29	member_app	0008_auto_20220102_1931	2022-01-02 19:31:10.093153+01
+30	member_app	0009_auto_20220102_1940	2022-01-02 19:40:52.163599+01
+31	member_app	0010_memberattendance_overall_total	2022-01-02 19:54:28.486735+01
+32	member_app	0011_auto_20220102_2000	2022-01-02 20:00:40.91788+01
+33	member_app	0012_auto_20220102_2008	2022-01-02 20:08:04.073643+01
+34	member_app	0013_alter_memberattendance_overall_total	2022-01-02 21:44:54.491436+01
+35	member_app	0014_alter_memberattendance_options	2022-01-04 21:49:11.027392+01
+36	member_app	0015_alter_memberattendance_options	2022-01-04 21:50:04.057083+01
+37	member_app	0016_alter_member_email	2022-01-11 16:18:15.860625+01
+38	member_app	0017_member_is_member	2022-01-14 16:09:50.138798+01
+39	member_app	0018_alter_member_date_joined	2022-01-14 17:33:58.532209+01
+40	member_app	0019_alter_member_department	2022-01-14 22:35:44.427658+01
+41	member_app	0020_message	2022-01-15 20:50:57.798444+01
+42	member_app	0021_alter_message_message_text	2022-01-15 20:59:33.237324+01
+43	member_app	0022_alter_message_approved_message	2022-01-15 21:48:31.792123+01
+44	member_app	0023_auto_20220115_2149	2022-01-15 21:50:09.2373+01
+45	member_app	0024_alter_message_sent_date	2022-01-15 22:26:35.271086+01
+46	member_app	0025_alter_message_sent_date	2022-01-15 22:27:13.169154+01
+47	member_app	0026_auto_20220116_0921	2022-01-16 09:21:43.867348+01
+48	member_app	0027_alter_message_flash	2022-01-18 09:17:57.185946+01
+49	member_app	0028_alter_message_flash	2022-01-18 09:38:58.913537+01
+50	member_app	0029_alter_message_sent_date	2022-01-18 13:45:38.494076+01
+51	member_app	0030_member_member_status	2022-01-19 18:07:23.620809+01
+52	member_app	0031_member_member_age	2022-01-19 18:41:22.047768+01
+53	member_app	0032_alter_member_member_age	2022-01-19 19:13:43.658705+01
+54	member_app	0033_alter_member_member_age	2022-01-19 19:14:16.961343+01
+55	member_app	0034_alter_member_member_age	2022-01-19 19:18:12.598191+01
+56	member_app	0035_auto_20220119_1938	2022-01-19 19:38:17.55115+01
+57	member_app	0036_alter_member_last_updated	2022-01-19 19:39:46.15227+01
+58	member_app	0037_alter_member_last_updated	2022-01-19 19:41:14.51333+01
+59	member_app	0038_auto_20220119_1948	2022-01-19 19:48:32.796106+01
+60	member_app	0039_alter_member_last_updated	2022-01-19 19:51:25.325939+01
+61	member_app	0040_alter_member_date_joined	2022-01-19 19:56:00.060857+01
+62	member_app	0041_alter_member_last_updated	2022-01-19 19:56:36.731802+01
+63	member_app	0042_alter_member_date_joined	2022-01-19 19:58:13.910992+01
+64	member_app	0043_member_other_number	2022-01-19 20:53:02.912503+01
+65	member_app	0044_auto_20220119_2316	2022-01-19 23:17:01.905048+01
+66	member_app	0045_alter_member_member_age	2022-01-20 11:47:57.733194+01
+67	member_app	0046_auto_20220120_1326	2022-01-20 13:26:37.502243+01
+68	member_app	0047_alter_member_is_baptized	2022-01-20 13:30:02.718685+01
+69	member_app	0048_alter_member_is_member	2022-01-20 20:35:01.917709+01
+70	member_app	0049_auto_20220120_2108	2022-01-20 21:08:05.458142+01
+71	member_app	0050_alter_member_phone_number	2022-01-20 21:47:29.473245+01
+72	member_app	0051_alter_member_phone_number	2022-01-20 21:52:25.44663+01
+73	member_app	0052_auto_20220121_1033	2022-01-21 10:33:17.750683+01
+74	member_app	0053_alter_member_last_name	2022-01-21 10:34:18.563853+01
+75	lyrics_app	0002_auto_20220121_1924	2022-01-21 19:24:15.564329+01
+76	member_app	0054_alter_member_options	2022-01-21 19:24:15.583277+01
+77	lyrics_app	0003_alter_lyrics_artist	2022-01-21 20:13:04.516458+01
+78	member_app	0055_auto_20220121_2155	2022-01-21 21:55:23.197394+01
+79	member_app	0056_auto_20220121_2242	2022-01-21 22:42:56.925994+01
+80	member_app	0057_alter_homecell_last_updated	2022-01-21 23:02:36.339225+01
+81	member_app	0058_alter_homecell_last_updated	2022-01-21 23:26:21.947528+01
+82	member_app	0059_alter_homecell_last_updated	2022-01-21 23:26:21.969302+01
+83	member_app	0060_auto_20220122_0008	2022-01-22 00:08:09.589325+01
+84	member_app	0061_alter_homecell_cell_leader	2022-01-22 00:47:04.33003+01
+\.
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+jum48tqmpbyvmjhhf0ym3e3ohez61igq	.eJxVjEEOwiAQRe_C2hBop05x6b5nIAMzSNVAUtqV8e7apAvd_vfefylP25r91mTxM6uLsur0uwWKDyk74DuVW9WxlnWZg94VfdCmp8ryvB7u30Gmlr81xggGg-mgk-SALDJgxAHoTC70EI0jZknICakP1lgyKEHGkQloEPX-AO3qOLQ:1n2sV1:P15naEsm8op-Ycxb_Jxee_h6-dJSJWAMMrCcv84oUM4	2022-01-13 11:17:31.92438+01
+2uawn1nrp9p78ht0lown93yhd0r7d3p0	.eJxVjEEOwiAQRe_C2hBop05x6b5nIAMzSNVAUtqV8e7apAvd_vfefylP25r91mTxM6uLsur0uwWKDyk74DuVW9WxlnWZg94VfdCmp8ryvB7u30Gmlr81xggGg-mgk-SALDJgxAHoTC70EI0jZknICakP1lgyKEHGkQloEPX-AO3qOLQ:1n4qvE:71iV8wMdtF1E74DhbWdM9iFQZ93W2GwkzHgt1mV0KyI	2022-01-18 22:00:44.512454+01
+gr2ss95qk8y4carf0m7s15gtr40utxeh	.eJxVjEEOwiAQRe_C2hBop05x6b5nIAMzSNVAUtqV8e7apAvd_vfefylP25r91mTxM6uLsur0uwWKDyk74DuVW9WxlnWZg94VfdCmp8ryvB7u30Gmlr81xggGg-mgk-SALDJgxAHoTC70EI0jZknICakP1lgyKEHGkQloEPX-AO3qOLQ:1n5ZAj:Fd560q_hEBZ4fMPefqWy0O8bdLuMuNwqFzQngxdP3uw	2022-01-20 21:15:41.593357+01
+zbf71u88ts9dsbolhj6j2a3nyd60l3so	.eJxVjEEOwiAQRe_C2hBop05x6b5nIAMzSNVAUtqV8e7apAvd_vfefylP25r91mTxM6uLsur0uwWKDyk74DuVW9WxlnWZg94VfdCmp8ryvB7u30Gmlr81xggGg-mgk-SALDJgxAHoTC70EI0jZknICakP1lgyKEHGkQloEPX-AO3qOLQ:1nEc1Q:Og5S1X22Mvj-YxU993HzIQecHghU-GEvIqjHs7KZ8GU	2022-02-14 20:07:28.649616+01
+\.
+
+
+--
+-- Data for Name: home_cell_homecellmembers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.home_cell_homecellmembers (id, address, town, county, post_code, country, longitude, latitude, has_cell, is_active, cell_member_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: lyrics_app_lyrics; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.lyrics_app_lyrics (lyrics_id, song_name, song_lyrics, artist, album, year_recorded, date_added, category, last_updated) FROM stdin;
+6	Hey Yes You Me Take Me Lord	Joy to the world!\r\nJoy to the world! Oh, woah\r\nJoy to the world, the Lord is come\r\nLet earth receive her King\r\n\r\nLet every heart prepare Him room\r\nAnd heaven and nature sing\r\nAnd heaven and nature sing\r\nAnd heaven, and heaven and nature sing\r\n\r\nJoy to the world!\r\nJoy to the world! Oh\r\nJoy to the world, the Savior reigns\r\nLet men their songs employ\r\nWhile fields and floods\r\n\r\nRocks, hills and plains\r\nRepeat the sounding joy\r\nRepeat the sounding joy\r\nRepeat, repeat the sounding joy\r\nJoy to the world then we sing\r\n\r\nLet the earth receive her King!\r\nJoy to the world then we sing\r\nLet the angel voices ring\r\nJoy to the world then we sing\r\nLet the men their songs employ\r\n\r\nJoy to the world then we sing\r\nAnd repeat the sounding joy\r\nHe rules the world with truth and grace\r\nAnd makes the nations prove (and makes the nations prove)\r\nAnd glories of His righteousness\r\nAnd wonders of His love\r\nAnd wonders of His love\r\nAnd wonders of His love\r\nAnd wonders, wonders of His love\r\nAnd wonders, wonders of His love\r\nJoy to the world then we sing\r\nLet the earth receive her King\r\nJoy to the world then we sing\r\nLet the angel voices ring	Pentatonix		2021	2022-01-12 01:00:00+01	Praise Song	2022-01-23 08:50:33.006784+01
+8	Mr Chuks	dhbjdbj\r\njbjdhjonkla\r\njnjnkdnmd	Unknown		2021	2022-01-21 01:00:00+01	Praise Song	2022-01-31 21:03:48.576921+01
+\.
+
+
+--
+-- Data for Name: member_app_homecell; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.member_app_homecell (id, cell_name, cell_address, cell_leader_id, date_added, last_updated, is_active) FROM stdin;
+3	Praise Cell	22 Afor-ule road Umuocham Aba, Abayi	102	2022-01-21 22:55:23.162092+01	2022-01-22 01:54:57.98546+01	t
+7	Glory Cell	26 Afor-ule road aba	105	2022-01-31 21:06:22.340037+01	2022-01-31 21:06:31.060012+01	f
+\.
+
+
+--
+-- Data for Name: member_app_member; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.member_app_member (member_id, first_name, middle_name, last_name, gender, phone_number, email, state_of_origin, address, date_joined, last_updated, department, marital_status, occupation, wing, birthday, home_cell_id, is_member, member_status, member_age, other_number, done_foundation, done_maturity, is_baptized) FROM stdin;
+102	Chukwuemeka	Joel	Nwaoma	Male	07039516293	joelchukks@gmail.com		26 Afor-ule Road, Umuocham	2022-01-21 18:29:20.852925+01	2022-01-31 21:05:26.629301+01	Media				2022-01-21	3	f	Member	0	\N	t	f	t
+105	Rod	Joel	Nwaoma	Male	34535353454	\N		26 Afor-ule Road, Umuocham	2022-01-22 01:24:18.208279+01	2022-01-23 10:11:34.609543+01	Media				2022-01-22	\N	f	Member	0	\N	t	f	t
+\.
+
+
+--
+-- Data for Name: member_app_memberattendance; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.member_app_memberattendance (id, date, "service_Type", overall_total) FROM stdin;
+27	2022-01-04	Sunday Service	45
+53	2022-01-05	Sunday Service	0
+49	2022-01-04	Friday Worship & Wonders Night	87
+54	2022-01-09	Friday Worship & Wonders Night	68
+48	2022-01-04	Tueday Healing & Deliverance	68
+60	2022-01-23	Sunday Service	63
+57	2022-01-09	Sunday Service	0
+56	2022-01-09	Friday Worship & Wonders Night	12
+29	2022-01-04	Wednesday Mid-Week Service	1095
+61	2022-01-23	Sunday Service	0
+58	2022-01-17	Sunday Service	0
+55	2022-01-09	Wednesday Mid-Week Service	67
+59	2022-01-17	Sunday Service	0
+52	2022-01-05	Sunday Service	3856
+50	2022-01-05	Sunday Service	78
+51	2022-01-05	Others	77
+\.
+
+
+--
+-- Data for Name: member_app_message; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.member_app_message (id, sender_name, recipients, message_text, flash, created_date, approved_message, sent_date) FROM stdin;
+12	DIGC ABA	2349157695645	Hello, Welcome To A New Season. mekus	f	2022-01-17 13:21:14.597888+01	t	\N
+11	Hello	assasddasdadad	sdssedadsd	f	2022-01-17 11:50:17.783151+01	t	2022-01-18 14:45:46.829215+01
+10	Hello	ass	sdss	f	2022-01-17 11:46:48.09123+01	t	2022-01-18 14:55:29.895724+01
+9	Chukssssfgtg	2347039516454,234703951213,2345039516293,2347039516233,2347039514593,2347039333293,2347039516444,2347039516333,23423423343443,2347039516293,2347039,23474334,234,23434423423434,23434342342424,23423423234234,234343435,234424243234,2347039323293,2347039534545,2347323322322,23470343	dwadsdasdaddd	f	2022-01-16 10:49:24.955223+01	t	2022-01-18 15:27:41.286913+01
+8	Hello	3454565666	sffdfssdfsdff	f	2022-01-16 01:11:41.323146+01	t	2022-01-18 15:28:26.012365+01
+7	Chuksygsygyg	2347039516454,234703951213,2345039516293,2347039516233,2347039514593,2347039333293,2347039516444,2347039516333,23423423343443,2347039516293,2347039,23474334,234,23434423423434,23434342342424,23423423234234,234343435,234424243234,2347039323293,2347039534545,2347323322322,23470343	wdewadadwdwdwdwwe	f	2022-01-15 23:27:54+01	t	2022-01-18 15:28:42.898504+01
+6	Chuks	sfsdafffffff	wdewadadwdwdwdwwe	f	2022-01-15 23:27:42.977458+01	t	2022-01-18 16:12:24.790514+01
+5	DIGC ABA	2347039516293,2348063966273,2348183405145,2348129294384,2349157695645	Welcome To Your Season Of Overflow. Chuks.	f	2022-01-15 23:27:18.867945+01	t	2022-01-18 16:14:57.072905+01
+13	Baby M	2347068650121	Howfar	f	2022-01-20 09:54:41.756301+01	t	2022-01-20 09:54:46.08942+01
+14	DIGC ABA	2348161539240	Welcome	f	2022-01-23 08:51:17.099383+01	f	\N
+15	DIGC ABA	2347012819611	Welcome	f	2022-01-23 08:52:31.645245+01	f	\N
+\.
+
+
+--
+-- Data for Name: member_app_service; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.member_app_service (id, no_of_men, no_of_women, no_of_children, no_of_new_comers, no_of_new_converts, total, service_id) FROM stdin;
+34	44	42	44	0	0	130	29
+35	44	44	442	0	0	530	29
+42	33	2	33	0	0	68	48
+43	43	44	0	0	0	87	49
+44	0	55	0	0	0	55	29
+33	333	44	3	0	0	380	29
+45	34	0	0	0	0	34	50
+46	0	0	44	0	0	44	50
+51	44	0	0	0	0	44	52
+52	33	0	0	0	0	33	52
+50	3342	4	433	0	0	3779	52
+47	33	44	0	0	0	77	51
+53	45	0	0	0	0	45	27
+54	45	0	0	0	0	45	54
+55	23	0	0	0	0	23	54
+56	34	33	0	0	0	67	55
+57	6	6	0	0	0	12	56
+58	23	40	0	0	0	63	60
+\.
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 56, true);
+
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_groups_id_seq', 1, false);
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_id_seq', 1, true);
+
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 236, true);
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 13, true);
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 84, true);
+
+
+--
+-- Name: home_cell_homecellmembers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.home_cell_homecellmembers_id_seq', 1, true);
+
+
+--
+-- Name: lyrics_app_lyrics_lyrics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.lyrics_app_lyrics_lyrics_id_seq', 11, true);
+
+
+--
+-- Name: member_app_homecell_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.member_app_homecell_id_seq', 7, true);
+
+
+--
+-- Name: member_app_member_member_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.member_app_member_member_id_seq', 105, true);
+
+
+--
+-- Name: member_app_memberattendance_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.member_app_memberattendance_id_seq', 61, true);
+
+
+--
+-- Name: member_app_message_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.member_app_message_id_seq', 15, true);
+
+
+--
+-- Name: member_app_servicecount_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.member_app_servicecount_id_seq', 58, true);
+
+
+--
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_group_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_permission_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: home_cell_homecellmembers home_cell_homecellmembers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.home_cell_homecellmembers
+    ADD CONSTRAINT home_cell_homecellmembers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: lyrics_app_lyrics lyrics_app_lyrics_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.lyrics_app_lyrics
+    ADD CONSTRAINT lyrics_app_lyrics_pkey PRIMARY KEY (lyrics_id);
+
+
+--
+-- Name: member_app_homecell member_app_homecell_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.member_app_homecell
+    ADD CONSTRAINT member_app_homecell_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: member_app_member member_app_member_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.member_app_member
+    ADD CONSTRAINT member_app_member_email_key UNIQUE (email);
+
+
+--
+-- Name: member_app_member member_app_member_other_number_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.member_app_member
+    ADD CONSTRAINT member_app_member_other_number_key UNIQUE (other_number);
+
+
+--
+-- Name: member_app_member member_app_member_phone_number_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.member_app_member
+    ADD CONSTRAINT member_app_member_phone_number_key UNIQUE (phone_number);
+
+
+--
+-- Name: member_app_member member_app_member_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.member_app_member
+    ADD CONSTRAINT member_app_member_pkey PRIMARY KEY (member_id);
+
+
+--
+-- Name: member_app_memberattendance member_app_memberattendance_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.member_app_memberattendance
+    ADD CONSTRAINT member_app_memberattendance_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: member_app_message member_app_message_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.member_app_message
+    ADD CONSTRAINT member_app_message_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: member_app_service member_app_servicecount_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.member_app_service
+    ADD CONSTRAINT member_app_servicecount_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_group_id_97559544; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_groups_group_id_97559544 ON public.auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_user_id_6a12ed8b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_groups_user_id_6a12ed8b ON public.auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_permission_id_1fbb5f2c; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id_1fbb5f2c ON public.auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_a95ead1b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_user_permissions_user_id_a95ead1b ON public.auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON public.auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: home_cell_homecellmembers_cell_member_id_40703708; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX home_cell_homecellmembers_cell_member_id_40703708 ON public.home_cell_homecellmembers USING btree (cell_member_id);
+
+
+--
+-- Name: member_app_homecell_cell_leader_id_19e7d33a; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX member_app_homecell_cell_leader_id_19e7d33a ON public.member_app_homecell USING btree (cell_leader_id);
+
+
+--
+-- Name: member_app_member_email_7671a73c_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX member_app_member_email_7671a73c_like ON public.member_app_member USING btree (email varchar_pattern_ops);
+
+
+--
+-- Name: member_app_member_home_cell_id_08e8fe5f; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX member_app_member_home_cell_id_08e8fe5f ON public.member_app_member USING btree (home_cell_id);
+
+
+--
+-- Name: member_app_member_other_number_d3ccfb90_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX member_app_member_other_number_d3ccfb90_like ON public.member_app_member USING btree (other_number varchar_pattern_ops);
+
+
+--
+-- Name: member_app_member_phone_number_f9f556e0_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX member_app_member_phone_number_f9f556e0_like ON public.member_app_member USING btree (phone_number varchar_pattern_ops);
+
+
+--
+-- Name: member_app_servicecount_service_id_f39b1345; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX member_app_servicecount_service_id_f39b1345 ON public.member_app_service USING btree (service_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: home_cell_homecellmembers home_cell_homecellme_cell_member_id_40703708_fk_member_ap; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.home_cell_homecellmembers
+    ADD CONSTRAINT home_cell_homecellme_cell_member_id_40703708_fk_member_ap FOREIGN KEY (cell_member_id) REFERENCES public.member_app_member(member_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: member_app_homecell member_app_homecell_cell_leader_id_19e7d33a_fk_member_ap; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.member_app_homecell
+    ADD CONSTRAINT member_app_homecell_cell_leader_id_19e7d33a_fk_member_ap FOREIGN KEY (cell_leader_id) REFERENCES public.member_app_member(member_id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: member_app_member member_app_member_home_cell_id_08e8fe5f_fk_member_ap; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.member_app_member
+    ADD CONSTRAINT member_app_member_home_cell_id_08e8fe5f_fk_member_ap FOREIGN KEY (home_cell_id) REFERENCES public.member_app_homecell(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: member_app_service member_app_serviceco_service_id_f39b1345_fk_member_ap; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.member_app_service
+    ADD CONSTRAINT member_app_serviceco_service_id_f39b1345_fk_member_ap FOREIGN KEY (service_id) REFERENCES public.member_app_memberattendance(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
